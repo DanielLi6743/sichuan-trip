@@ -1,0 +1,54 @@
+川西家庭旅行 App — 照片清单（共 41 张）
+===========================================
+
+【轮播图 · 3 张】
+  images/hero-chuanxi.jpg       — 川西环线
+  images/hero-jiaju.jpg         — 甲居藏寨
+  images/hero-yala.jpg          — 雅拉雪山
+
+【行程照片 · 12 张】day00 ~ day11
+  images/day00-chongqing.jpg    — D0  7/8  抵达重庆
+  images/day01-chongqing.jpg    — D1  7/9  山城经典
+  images/day02-chongqing.jpg    — D2  7/10 重庆深度
+  images/day03-transfer.jpg     — D3  7/11 穿楼轻轨·转场成都
+  images/day04-sanxingdui.jpg   — D4  7/12 三星堆探秘
+  images/day05-chengdu.jpg      — D5  7/13 蜀韵慢调
+  images/day06-danba.jpg        — D6  7/14 向高原出发
+  images/day07-danba.jpg        — D7  7/15 丹巴秘境
+  images/day08-bamei.jpg        — D8  7/16 驶向八美
+  images/day09-tagong.jpg       — D9  7/17 塔公深度
+  images/day10-kangding.jpg     — D10 7/18 康定情歌
+  images/day11-return.jpg       — D11 7/19 归程
+
+【发现页 · 26 张】
+  重庆段
+  images/hongyadong.jpg         — 洪崖洞夜景
+  images/ciqikou.jpg            — 磁器口古镇
+  images/yangtze-cableway.jpg   — 长江索道
+  images/jiefangbei.jpg         — 解放碑
+  images/liziba.jpg             — 李子坝轻轨穿楼
+  images/shibati.jpg            — 十八梯老街
+
+  成都段
+  images/panda-base.jpg         — 大熊猫繁育基地
+  images/kuanzhai-alley.jpg     — 宽窄巷子
+  images/jinli.jpg              — 锦里古街
+  images/sanxingdui.jpg         — 三星堆博物馆
+  images/renmin-park.jpg        — 人民公园
+  images/wuhouci.jpg            — 武侯祠
+
+  川西段
+  images/erlang-tunnel.jpg      — 二郎山隧道
+  images/jiaju-village.jpg      — 甲居藏寨
+  images/suopo-towers.jpg       — 梭坡古碉群
+  images/zhonglu-village.jpg    — 中路藏寨
+  images/tagong-grassland.jpg   — 塔公草原
+  images/yala-snowmountain.jpg  — 雅拉雪山
+  images/muya-temple.jpg        — 木雅大寺
+  images/tagong-temple.jpg      — 塔公寺
+  images/zheduo-pass.jpg        — 折多山垭口
+  images/kangding-oldtown.jpg   — 康定古城
+  images/gongga-snowmountain.jpg — 贡嘎雪山
+  images/hailuogou.jpg          — 海螺沟冰川
+  images/siguniang-mountain.jpg — 四姑娘山
+  images/xinduqiao.jpg          — 新都桥

@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#FDFAF5">
+<title>川西 · 慢慢回到自己</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+:root {
+  --bg:#FDFAF5; --surface:#FFFFFF; --t1:#1E1B17; --t2:#8C8278; --t3:#C4B8AC;
+  --warm:#C27B44; --warm-light:#FDF0E4; --cool:#5C8A6A; --cool-light:#ECF4EE;
+  --border:#EBE5DD;
+  --shadow-sm:0 1px 4px rgba(30,27,23,0.05);
+  --shadow-md:0 4px 20px rgba(30,27,23,0.07);
+  --shadow-lg:0 8px 36px rgba(30,27,23,0.10);
+  --r-sm:8px; --r-md:15px; --r-lg:22px; --r-xl:30px; --r-full:9999px;
+  --ease: cubic-bezier(0.22,1,0.36,1);
+  --spring: cubic-bezier(0.34,1.56,0.64,1);
+  --safe-b: env(safe-area-inset-bottom,0px); --safe-t: env(safe-area-inset-top,0px);
+}
+@media(prefers-color-scheme:dark){
+  :root{--bg:#1A1714;--surface:#24211D;--t1:#EDE8E1;--t2:#9B9287;--t3:#6B6259;--warm:#D4945A;--warm-light:#35281A;--cool:#7DAD7D;--cool-light:#1C2D1C;--border:#2E2923;--shadow-sm:0 1px 4px rgba(0,0,0,.3);--shadow-md:0 4px 20px rgba(0,0,0,.35);--shadow-lg:0 8px 36px rgba(0,0,0,.45)}
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'SF Pro Display','PingFang SC',-apple-system,sans-serif;background:var(--bg);color:var(--t1);-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;font-size:15px}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:10px}
+
+#app{width:100%;height:100%;display:flex;flex-direction:column;position:relative;overflow:hidden}
+@media(min-width:768px){#app{max-width:960px;margin:0 auto;border-left:1px solid var(--border);border-right:1px solid var(--border)}}
+@media(min-width:1024px){#app{max-width:1100px}}
+@media(min-width:1400px){#app{max-width:1200px;border-radius:0}}
+
+#splash{position:absolute;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .5s var(--ease),visibility .5s}
+#splash.hide{opacity:0;visibility:hidden;pointer-events:none}
+
+#splash h1{font-family:'Noto Serif SC','Songti SC',serif;font-size:24px;font-weight:700;letter-spacing:.02em;line-height:1.5;text-align:center}
+#splash .s-bar{margin-top:32px;width:44px;height:2px;border-radius:1px;background:var(--border);overflow:hidden}
+.s-bar::after{content:'';display:block;width:35%;height:100%;background:var(--warm);animation:sSlide 1.8s var(--ease) infinite}
+@keyframes sSlide{0%{transform:translateX(-120%)}100%{transform:translateX(320%)}}
+
+#welcome{position:absolute;inset:0;z-index:99;display:flex;align-items:center;justify-content:center;padding:28px 20px;transition:opacity .4s var(--ease),transform .4s var(--ease)}
+#welcome.hide{opacity:0;transform:translateY(12px);pointer-events:none}
+.w-panel{background:var(--surface);border-radius:var(--r-xl);padding:32px 22px 26px;text-align:center;max-width:320px;width:100%;box-shadow:var(--shadow-md);border:1px solid var(--border)}
+.w-panel>*{opacity:0;transform:translateY(16px)}
+.w-panel.visible>*{animation:wUp .5s var(--ease) both}
+.w-panel.visible>:nth-child(1){animation-delay:.02s}.w-panel.visible>:nth-child(2){animation-delay:.07s}.w-panel.visible>:nth-child(3){animation-delay:.12s}.w-panel.visible>:nth-child(4){animation-delay:.17s}.w-panel.visible>:nth-child(5){animation-delay:.22s}
+@keyframes wUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* ─── TAB BAR ─── */
+#tabBar{display:none;z-index:50;position:absolute;bottom:calc(var(--safe-b) + 8px);left:50%;transform:translateX(-50%);background:var(--surface);border-radius:var(--r-full);padding:4px;box-shadow:var(--shadow-lg);border:1px solid var(--border)}
+#tabBar.show{display:flex}
+.tab-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:none;background:none;color:var(--t3);font-size:9px;font-weight:560;cursor:pointer;padding:7px 15px;border-radius:var(--r-full);min-width:52px;min-height:48px;transition:color .25s;-webkit-tap-highlight-color:transparent;position:relative;z-index:1}
+.tab-item .ti-icon{width:20px;height:20px;display:flex;align-items:center;justify-content:center;transition:transform .3s var(--spring)}
+.tab-item.active{color:var(--warm)}
+.tab-item.active .ti-icon{transform:scale(1.15)}
+#tabPill{position:absolute;top:4px;height:48px;border-radius:var(--r-full);background:var(--warm-light);transition:left .35s var(--spring),width .35s var(--spring);z-index:0;pointer-events:none}
+@media(min-width:768px){#tabBar{position:relative;bottom:auto;left:auto;transform:none;border-radius:0;padding:0;background:transparent;box-shadow:none;border:none;border-bottom:1px solid var(--border);width:100%;justify-content:center;gap:0}#tabPill{display:none}.tab-item{flex-direction:row;gap:5px;border-radius:12px 12px 0 0;padding:12px 22px;font-size:13px;min-height:46px;min-width:auto}.tab-item.active{color:var(--warm);border-bottom:2px solid var(--warm);background:transparent}}
+
+#mainContent{flex:1;overflow-y:auto;overflow-x:hidden;position:relative;display:none;-webkit-overflow-scrolling:touch;scroll-behavior:smooth}
+#mainContent.on{display:block}
+.page{display:none;padding:var(--safe-t) 0 130px}
+.page.on{display:block}
+@media(min-width:768px){.page{padding:14px 20px 44px}}
+@media(min-width:1400px){.page{padding:20px 32px 50px}}
+
+.fade-up{opacity:0;transform:translateY(20px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+.fade-up.in{opacity:1;transform:translateY(0)}
+
+/* ─── HERO BANNER (replaces carousel) ─── */
+.hero-banner{position:relative;margin:0;border-radius:0;overflow:hidden;height:340px;box-shadow:none}
+.hero-banner img{width:100%;height:100%;object-fit:cover;display:block}
+.hero-banner .hb-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.15) 0%,transparent 25%,rgba(0,0,0,.5) 100%)}
+.hero-banner .hb-text{position:absolute;bottom:20px;left:18px;right:18px;color:#fff}
+.hero-banner .hb-text .hb-greeting{font-size:13px;opacity:.85;margin-bottom:4px;font-weight:400;letter-spacing:.02em}
+.hero-banner .hb-text .hb-location{font-family:'Noto Serif SC',serif;font-size:30px;font-weight:700;line-height:1.15;text-shadow:0 2px 12px rgba(0,0,0,.3)}
+.hero-banner .hb-capsule{position:absolute;top:calc(var(--safe-t) + 14px);right:16px;background:rgba(0,0,0,.25);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#fff;font-size:11px;font-weight:600;padding:6px 14px;border-radius:var(--r-full);letter-spacing:.04em;border:1px solid rgba(255,255,255,.2)}
+@media(min-width:768px){.hero-banner{height:420px;margin:0 0 20px;border-radius:var(--r-lg)}.hero-banner .hb-text .hb-location{font-size:38px}}
+@media(min-width:1400px){.hero-banner{height:460px;max-width:100%;border-radius:var(--r-lg);margin:0 0 24px}.hero-banner .hb-text .hb-location{font-size:42px}}
+
+/* ─── TODAY STRIP ─── */
+.today-strip{margin:0 16px 20px;padding:16px;border-radius:var(--r-lg);background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow-sm);display:flex;gap:14px;align-items:center}
+.today-strip .ts-img{width:72px;height:72px;border-radius:var(--r-md);object-fit:cover;flex-shrink:0}
+.today-strip .ts-info{flex:1;min-width:0}
+.today-strip .ts-info .ts-overline{font-size:9px;font-weight:600;letter-spacing:.08em;color:var(--warm);margin-bottom:2px}
+.today-strip .ts-info .ts-title{font-family:'Noto Serif SC',serif;font-size:17px;font-weight:700;margin-bottom:2px}
+.today-strip .ts-info .ts-detail{font-size:11px;color:var(--t2);line-height:1.4}
+@media(min-width:768px){.today-strip{margin:0 20px 20px}}
+@media(min-width:1400px){.today-strip{max-width:800px;margin:0 auto 20px}}
+
+/* ─── ORBITING PRINCIPLES ─── */
+.orbit-wrap{padding:0 16px;margin-bottom:24px}
+.orbit-wrap .ow-header{text-align:center;margin-bottom:8px}
+.orbit-wrap .ow-header h3{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:700}
+.orbit-wrap .ow-header p{font-size:10px;color:var(--t3);margin-top:2px}
+.orbit-stage{position:relative;width:280px;height:280px;margin:0 auto}
+@media(min-width:640px){.orbit-stage{width:340px;height:340px}}
+.orbit-guide{position:absolute;inset:30px;border-radius:50%;border:1px dashed var(--border);opacity:.5;pointer-events:none}
+.orbit-desc{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:2}
+.orbit-desc .od-text{max-width:150px;text-align:center;opacity:0;transition:opacity .35s var(--ease)}
+.orbit-desc .od-text.show{opacity:1}
+.orbit-desc .od-word{font-family:'Noto Serif SC',serif;font-size:28px;font-weight:700;color:var(--warm);margin-bottom:2px}
+.orbit-desc .od-detail{font-size:11px;color:var(--t2);line-height:1.5}
+.orbit-track{position:absolute;inset:0;animation:orbitSpin 35s linear infinite}
+.orbit-track.paused{animation-play-state:paused}
+@keyframes orbitSpin{to{rotate:360deg}}
+.orbit-stone{position:absolute;width:58px;height:58px;margin:-29px 0 0 -29px;border-radius:46% 54% 50% 50%;display:flex;align-items:center;justify-content:center;font-family:'Noto Serif SC',serif;font-size:24px;font-weight:700;cursor:pointer;background:var(--surface);border:2px solid var(--border);box-shadow:var(--shadow-sm);animation:orbitCounterSpin 35s linear infinite;transition:all .3s var(--ease);-webkit-tap-highlight-color:transparent;z-index:3}
+.orbit-stone.paused{animation-play-state:paused}
+.orbit-stone:hover{box-shadow:var(--shadow-md);scale:1.08}
+.orbit-stone:active{scale:.9}
+.orbit-stone.active{background:var(--warm)!important;color:#fff!important;border-color:var(--warm)!important;box-shadow:0 0 0 10px var(--warm-light)!important}
+@keyframes orbitCounterSpin{to{rotate:-360deg}}
+.orbit-stone:nth-child(1){border-radius:50% 50% 46% 54%}
+.orbit-stone:nth-child(2){border-radius:54% 46% 48% 52%}
+.orbit-stone:nth-child(3){border-radius:46% 54% 52% 48%}
+.orbit-stone:nth-child(4){border-radius:52% 48% 44% 56%}
+.orbit-stone:nth-child(5){border-radius:48% 52% 54% 46%}
+@media(min-width:640px){.orbit-stone{width:68px;height:68px;margin:-34px 0 0 -34px;font-size:28px}}
+
+/* ─── QUICK STATS ─── */
+.quick-stats{display:flex;justify-content:center;gap:28px;padding:8px 16px 20px;flex-wrap:wrap}
+.quick-stat{text-align:center}
+.quick-stat .qs-val{font-family:'Noto Serif SC',serif;font-size:28px;font-weight:700;color:var(--warm);line-height:1}
+.quick-stat .qs-label{font-size:10px;color:var(--t2);margin-top:3px;font-weight:500}
+
+/* ─── ROUTE EXPLORER (S-shaped) ─── */
+.route-explorer{margin:0 16px 20px}
+.route-explorer .rx-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px}
+.route-explorer .rx-header h3{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:700}
+.route-explorer .rx-header span{font-size:10px;color:var(--t3)}
+.rx-s-row{display:flex;gap:8px;justify-content:center;align-items:flex-start;flex-wrap:wrap;margin-bottom:0}
+.rx-s-row.reverse{flex-direction:row-reverse}
+.rx-s-connector{display:flex;justify-content:flex-end;padding:0 52px;margin:-4px 0}
+.rx-s-connector svg{width:60px;height:32px;stroke:var(--border);stroke-width:1.5;fill:none}
+.rx-spot{display:flex;flex-direction:column;align-items:center;min-width:64px;cursor:pointer;position:relative;flex-shrink:0}
+.rx-spot .rx-ring{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;background:var(--surface);border:2px solid var(--border);color:var(--t2);margin-bottom:6px;transition:all .3s var(--ease)}
+.rx-spot:hover .rx-ring,.rx-spot.active .rx-ring{border-color:var(--warm);color:var(--warm);background:var(--warm-light);box-shadow:0 0 0 6px var(--warm-light)}
+.rx-spot .rx-name{font-size:11px;font-weight:600;white-space:nowrap}
+.rx-spot .rx-alt{font-size:9px;color:var(--t3)}
+@media(min-width:768px){.rx-s-row{gap:14px}}
+@media(min-width:1400px){.route-explorer{max-width:900px;margin:0 auto 24px}}
+
+/* ─── MOUNTAIN CHART SVG ─── */
+.mtn-chart-wrap{margin-top:10px}
+.mtn-chart-wrap svg{width:100%;height:auto;display:block}
+.mtn-fill{fill:var(--warm);opacity:.18}
+.mtn-line{fill:none;stroke:var(--warm);stroke-width:2;stroke-linejoin:round}
+.mtn-label{fill:var(--t2);font-size:15px;text-anchor:middle;font-weight:700}
+.mtn-alt{fill:var(--warm);font-size:10px;text-anchor:middle;font-weight:600}
+.mtn-snow{fill:#fff;opacity:.72}
+
+/* ─── QUOTE ─── */
+.end-quote{text-align:center;padding:20px 24px 4px;font-family:'Noto Serif SC',serif;font-size:16px;line-height:1.8;color:var(--t2)}
+.end-quote strong{font-weight:700;color:var(--warm)}
+
+/* ─── CALENDAR ─── */
+.cal-header{margin:0 16px 12px}
+.cal-header h2{font-family:'Noto Serif SC',serif;font-size:24px;font-weight:700;margin-bottom:2px}
+.cal-header p{font-size:12px;color:var(--t2)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin:0 8px 14px}
+.cal-dow{text-align:center;font-size:10px;color:var(--t3);font-weight:500;padding:2px 0 6px}
+.cal-cell{aspect-ratio:1}
+.cal-cell.hidden-cell{visibility:hidden}
+.cal-day{aspect-ratio:1;border-radius:var(--r-md);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:var(--surface);border:2px solid var(--warm-light);transition:all .3s var(--ease);gap:1px;-webkit-tap-highlight-color:transparent;overflow:hidden}
+.cal-day:active{transform:scale(.93)}
+.cal-day.active{background:var(--warm);color:#fff;border-color:var(--warm);box-shadow:0 4px 16px rgba(194,123,68,.3)}
+.cal-day .cd-num{font-family:'Noto Serif SC',serif;font-size:20px;font-weight:700;line-height:1}
+.cal-day .cd-wd{font-size:8px;opacity:.6}
+.cal-day .cd-photo{display:none}
+.cal-day.expanded .cd-photo{display:block}
+/* expanded calendar day — inline expansion, full row + photo */
+.cal-day.expanded{aspect-ratio:auto;grid-column:1/-1;display:grid;grid-template-columns:120px 1fr;gap:12px;padding:10px;cursor:default;align-items:start}
+.cal-day.expanded:active{transform:none}
+.cal-day.expanded .cd-num{font-size:22px;min-width:auto;text-align:left;position:absolute;top:8px;left:10px;z-index:2;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+.cal-day.expanded .cd-wd{position:absolute;top:30px;left:10px;z-index:2;color:rgba(255,255,255,.8);font-size:9px;text-shadow:0 1px 2px rgba(0,0,0,.4)}
+.cal-day.expanded .cd-photo{width:120px;height:90px;border-radius:var(--r-sm);object-fit:cover;display:block}
+.cal-day.expanded .cd-detail{display:flex;flex-direction:column;gap:5px;flex:1;min-width:0;padding-top:2px}
+.cal-day .cd-detail{display:none}
+.cal-day.expanded .cd-detail .cdd-title{font-size:14px;font-weight:700;line-height:1.25}
+.cal-day.expanded .cd-detail .cdd-moves{font-size:10px;color:var(--t2);display:flex;gap:4px;flex-wrap:wrap}
+.cal-day.expanded .cd-detail .cdd-moves span{background:var(--border);padding:2px 7px;border-radius:var(--r-full);font-size:9px}
+.cal-day.expanded .cd-detail .cdd-meta{font-size:10px;color:var(--t3)}
+.cal-day.expanded .cd-collapse{font-size:9px;color:var(--warm);cursor:pointer;white-space:nowrap;padding:4px 10px;border-radius:var(--r-full);border:1px solid var(--warm);background:transparent;margin-top:2px;font-weight:600;align-self:flex-start}
+@media(min-width:640px){.cal-grid{gap:8px;margin:0 16px 16px}.cal-day .cd-num{font-size:28px}.cal-day .cd-wd{font-size:10px}.cal-day.expanded{grid-template-columns:160px 1fr}.cal-day.expanded .cd-photo{width:160px;height:110px}.cal-day.expanded .cd-detail .cdd-title{font-size:16px}}
+@media(min-width:768px){.cal-day.expanded{grid-template-columns:200px 1fr}.cal-day.expanded .cd-photo{width:200px;height:130px}}
+
+/* ─── DISCOVER: MASONRY ─── */
+.disc-head{margin:0 16px 12px}
+.disc-head h2{font-family:'Noto Serif SC',serif;font-size:24px;font-weight:700}
+.disc-head p{font-size:12px;color:var(--t2);margin-top:2px}
+.masonry{columns:2;column-gap:8px;padding:0 12px 24px}
+@media(min-width:640px){.masonry{columns:3;column-gap:10px;padding:0 16px 28px}}
+@media(min-width:1024px){.masonry{columns:4;column-gap:12px;padding:0 20px 32px}}
+@media(min-width:1400px){.masonry{columns:4;column-gap:14px;padding:0 24px 36px}}
+.masonry-item{break-inside:avoid;margin-bottom:8px;border-radius:var(--r-md);overflow:hidden;background:var(--surface);border:1px solid var(--border);cursor:pointer;box-shadow:var(--shadow-sm);transition:transform .2s var(--ease);contain:layout style}
+.masonry-item:active{transform:scale(.96)}
+.masonry-item img{width:100%;display:block;transition:transform .4s var(--ease)}
+.masonry-item:active img{transform:scale(1.03)}
+.masonry-item .mi-info{padding:11px 12px 12px}
+.masonry-item .mi-title{font-size:12px;font-weight:600;line-height:1.4;margin-bottom:4px}
+.masonry-item .mi-desc{font-size:10px;color:var(--t2);line-height:1.5;margin-bottom:5px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.masonry-item .mi-tag{font-size:9px;font-weight:550;padding:2px 7px;border-radius:var(--r-full);background:var(--cool-light);color:var(--cool);display:inline-block}
+@media(min-width:640px){.masonry-item{margin-bottom:10px}.masonry-item .mi-info{padding:13px 14px 14px}.masonry-item .mi-title{font-size:13px}}
+#discSentinel{height:1px;margin-bottom:60px}
+
+/* ─── SETTINGS ─── */
+.set-wrap{margin:0 16px}
+.set-wrap h2{font-family:'Noto Serif SC',serif;font-size:24px;font-weight:700;margin-bottom:18px}
+.set-block{margin-bottom:20px}
+.set-block .sb-label{font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--t3);margin-bottom:6px}
+.set-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden;box-shadow:var(--shadow-sm)}
+.set-row{display:flex;align-items:center;justify-content:space-between;padding:13px 15px}
+.set-row+.set-row{border-top:1px solid var(--border)}
+.set-row .srl{font-size:13px}.set-row .srv{font-size:12px;color:var(--t2)}
+.set-row.tappable{cursor:pointer;transition:background .2s}
+.set-row.tappable:active{background:var(--border)}
+.set-row.danger{color:#D04040;cursor:pointer}.set-row.danger:active{background:rgba(208,64,64,.04)}
+.check-item{display:flex;align-items:center;gap:10px;padding:10px 15px;cursor:pointer;transition:background .15s}
+.check-item+.check-item{border-top:1px solid var(--border)}
+.check-item:active{background:var(--border)}
+.check-item .ci-box{width:20px;height:20px;border-radius:5px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;font-size:11px;color:transparent}
+.check-item.done .ci-box{background:var(--cool);border-color:var(--cool);color:#fff}
+.check-item.done .ci-label{text-decoration:line-through;color:var(--t3)}
+.check-item .ci-label{font-size:13px;flex:1}
+.trip-summary{display:flex;gap:0;text-align:center;padding:14px 0}
+.trip-summary .ts-col{flex:1}
+.trip-summary .ts-col .tsc-num{font-family:'Noto Serif SC',serif;font-size:26px;font-weight:700;color:var(--warm);line-height:1}
+.trip-summary .ts-col .tsc-label{font-size:10px;color:var(--t2);margin-top:2px}
+@media(min-width:1400px){.set-wrap{max-width:700px;margin:0 auto}}
+
+/* ─── BENTO SHEET ─── */
+#sheetOverlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.38);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:none;animation:soIn .28s ease both}
+@keyframes soIn{from{opacity:0}to{opacity:1}}
+#sheetOverlay .sheet-wrap{position:absolute;bottom:0;left:0;right:0;display:flex;justify-content:center;padding:0 10px calc(12px + var(--safe-b))}
+#sheetOverlay .sheet{width:100%;max-width:500px;max-height:78vh;overflow-y:auto;background:var(--surface);border-radius:var(--r-xl);box-shadow:0 -4px 40px rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.04);animation:soUp .4s cubic-bezier(0.22,1,0.36,1) both}
+@keyframes soUp{from{transform:translateY(30px);opacity:.7}to{transform:translateY(0);opacity:1}}
+.sheet-handle{width:32px;height:4px;background:var(--border);border-radius:2px;margin:10px auto 4px}
+.sheet-img{width:100%;height:200px;object-fit:cover;display:block}
+.sheet-close{position:absolute;top:10px;right:10px;z-index:10;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.35);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .2s}
+.sheet-close:active{transform:scale(.84)}
+.sheet-close svg{width:16px;height:16px}
+.sheet-body{padding:18px 20px 22px}
+.sheet-body .sh-chip{display:inline-block;font-size:9px;font-weight:600;padding:3px 10px;border-radius:var(--r-full);background:var(--warm-light);color:var(--warm);margin-bottom:8px;letter-spacing:.04em}
+.sheet-body h3{font-family:'Noto Serif SC',serif;font-size:20px;font-weight:700;margin-bottom:6px;line-height:1.25}
+.sheet-body .sh-desc{font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:10px}
+.sheet-body .sh-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}
+.sheet-body .sh-tags span{font-size:10px;padding:4px 10px;border-radius:var(--r-full);background:var(--border);color:var(--t2)}
+.sheet-body .sh-meta{display:flex;gap:14px;font-size:12px;color:var(--t2)}
+@media(min-width:768px){.sheet-wrap{padding:0 20px calc(16px + var(--safe-b))}.sheet{max-width:560px}.sheet-img{height:280px}.sheet-body{padding:20px 26px 24px}.sheet-body h3{font-size:22px}}
+@media(min-width:1400px){.sheet{max-width:600px}}
+
+/* ─── COMBINED NOTICE (Photo + Font) ─── */
+#appNotice{position:fixed;inset:0;z-index:210;background:rgba(0,0,0,.42);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);display:none;align-items:center;justify-content:center;padding:24px;animation:pnIn .3s ease both}
+@keyframes pnIn{from{opacity:0}to{opacity:1}}
+#appNotice .pn-card{background:var(--surface);border-radius:var(--r-xl);padding:28px 22px 22px;text-align:center;max-width:320px;width:100%;box-shadow:var(--shadow-lg);border:1px solid var(--border);animation:pnUp .42s var(--spring) both}
+@keyframes pnUp{from{opacity:0;transform:translateY(20px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+#appNotice .pn-icon{margin-bottom:12px}
+#appNotice .pn-card h3{font-family:'Noto Serif SC',serif;font-size:17px;font-weight:700;margin-bottom:10px;line-height:1.35}
+#appNotice .pn-card .pn-list{text-align:left;margin-bottom:6px}
+#appNotice .pn-card .pn-item{display:flex;align-items:flex-start;gap:8px;padding:6px 0;font-size:12px;color:var(--t2);line-height:1.55}
+#appNotice .pn-card .pn-item .pn-dot{width:5px;height:5px;border-radius:50%;background:var(--warm);margin-top:6px;flex-shrink:0}
+#appNotice .pn-btn{display:inline-flex;align-items:center;gap:4px;padding:11px 36px;border-radius:var(--r-full);border:none;background:var(--warm);color:#fff;font-size:14px;font-weight:600;cursor:pointer;min-height:44px;box-shadow:0 4px 16px rgba(194,123,68,.25);-webkit-tap-highlight-color:transparent;transition:transform .2s;margin-top:12px}
+#appNotice .pn-btn:active{transform:scale(.94)}
+
+#toast{position:absolute;bottom:120px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--t1);color:var(--bg);font-size:11px;font-weight:520;padding:9px 18px;border-radius:var(--r-full);z-index:60;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s var(--ease);box-shadow:var(--shadow-md);white-space:nowrap}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div id="app">
+
+<div id="splash"><h1>慢慢进入高原<br>慢慢回到自己</h1><div class="s-bar"></div></div>
+
+<div id="welcome"><div class="w-panel" id="wPanel">
+<div style="width:56px;height:56px;border-radius:16px;background:var(--warm-light);display:inline-flex;align-items:center;justify-content:center;margin-bottom:14px"><svg viewBox="0 0 24 24" fill="none" stroke="var(--warm)" stroke-width="1.5" width="28" height="28"><path d="M12 3L4 19h16L12 3Z"/></svg></div>
+<h1 style="font-family:'Noto Serif SC',serif;font-size:25px;font-weight:700;line-height:1.35;margin-bottom:4px">慢慢进入高原<br><span style="color:var(--t3);font-weight:300">慢慢回到自己</span></h1>
+<p style="font-size:12px;color:var(--t2);margin-bottom:22px">一家四口 · 12天 · 川西环线</p>
+<div style="display:flex;gap:0;margin-bottom:24px"><div style="flex:1"><span style="font-family:'Noto Serif SC',serif;font-size:34px;font-weight:700;color:var(--warm)">12</span><br><span style="font-size:9px;color:var(--t2)">天</span></div><div style="flex:1"><span style="font-family:'Noto Serif SC',serif;font-size:34px;font-weight:700;color:var(--warm)">5</span><br><span style="font-size:9px;color:var(--t2)">次住宿</span></div><div style="flex:1"><span style="font-family:'Noto Serif SC',serif;font-size:34px;font-weight:700;color:var(--warm)">4</span><br><span style="font-size:9px;color:var(--t2)">口之家</span></div></div>
+<button id="enterBtn" style="display:inline-flex;align-items:center;gap:5px;padding:13px 44px;border-radius:var(--r-full);border:none;background:var(--warm);color:#fff;font-size:14px;font-weight:600;cursor:pointer;min-height:48px;box-shadow:0 4px 16px rgba(194,123,68,.3)">开始旅程</button>
+</div></div>
+
+<nav id="tabBar"><div id="tabPill"></div>
+<button class="tab-item active" data-tab="home"><span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>概览</button>
+<button class="tab-item" data-tab="trip"><span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>行程</button>
+<button class="tab-item" data-tab="check"><span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="12 6 14.5 10.5 19.5 11.5 16 15 16.5 20 12 18 7.5 20 8 15 4.5 11.5 9.5 10.5"/></svg></span>发现</button>
+<button class="tab-item" data-tab="settings"><span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>设置</button>
+</nav>
+
+<main id="mainContent">
+<div class="page" id="page-home"></div>
+<div class="page" id="page-trip"></div>
+<div class="page" id="page-check"></div>
+<div class="page" id="page-settings"></div>
+<div id="toast"></div>
+</main>
+</div>
+
+<!-- Combined notice: shows every time -->
+<div id="appNotice"><div class="pn-card">
+<div class="pn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--warm)" stroke-width="1.5" width="36" height="36"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+<h3>温馨提示</h3>
+<div class="pn-list">
+<div class="pn-item"><span class="pn-dot"></span><span>部分景点照片仍在寻找无版权版本，个别图片暂缺</span></div>
+<div class="pn-item"><span class="pn-dot"></span><span>手机端字体适配尚未完成，建议使用系统默认字体获得最佳体验</span></div>
+</div>
+<button class="pn-btn" id="pnDismiss">知道了</button>
+</div></div>
+
+<div id="sheetOverlay"><div class="sheet-wrap"><div class="sheet" id="sheetContent"><div class="sheet-handle"></div></div></div></div>
+
+<script>
+const IMG=(localPath,fallbackId)=>({src:localPath,fallback:fallbackId.startsWith('http')?fallbackId:`https://images.unsplash.com/${fallbackId}?w=800&q=80`,toHTML(alt,cls){return`<img class="${cls||''}" src="${this.src}" alt="${alt||''}" loading="lazy" onerror="this.src='${this.fallback}'">`}});
+const DIMG=[IMG('images/day00-chongqing.jpg','photo-1588702547923-7093a6c3ba33'),IMG('images/day01-chongqing.jpg','photo-1559127457-0ed04ed5859e'),IMG('images/day02-chongqing.jpg','photo-1537531383496-f4749b66adab'),IMG('images/day03-transfer.jpg','photo-1590559899731-a382839e5549'),IMG('images/day05-chengdu.jpg','photo-1547981609-4b6bfe67ca0b'),IMG('images/day04-sanxingdui.jpg','photo-1577859623808-745673a568d2'),IMG('images/day06-danba.jpg','photo-1536922241985-e3e3ac00b8e5'),IMG('images/day07-danba.jpg','photo-1516026672322-bc52d61a55d5'),IMG('images/day08-bamei.jpg','photo-1506905925346-21bda4d32df4'),IMG('images/day09-tagong.jpg','photo-1464822759023-fed622ff2c3b'),IMG('images/day10-kangding.jpg','photo-1501785888041-af3ef285b470'),IMG('images/day11-return.jpg','photo-1488646953014-85cb44e25828')];
+const PIMG=[IMG('images/hongyadong.jpg','photo-1588702547923-7093a6c3ba33'),IMG('images/ciqikou.jpg','photo-1559127457-0ed04ed5859e'),IMG('images/yangtze-cableway.jpg','photo-1537531383496-f4749b66adab'),IMG('images/jiefangbei.jpg','photo-1559131397-47a91906b6f3'),IMG('images/liziba.jpg','photo-1559715541-f74f40ca0e80'),IMG('images/shibati.jpg','photo-1533661436227-1f920d1f202c'),IMG('images/panda-base.jpg','photo-1577859623808-745673a568d2'),IMG('images/kuanzhai-alley.jpg','photo-1590559899731-a382839e5549'),IMG('images/jinli.jpg','photo-1547981609-4b6bfe67ca0b'),IMG('images/sanxingdui.jpg','photo-1518886173421-28b28d25e3d9'),IMG('images/renmin-park.jpg','photo-1528164344705-47542687000d'),IMG('images/wuhouci.jpg','photo-1508804185872-d7bad8a2a4e7'),IMG('images/erlang-tunnel.jpg','photo-1464822759023-fed622ff2c3b'),IMG('images/jiaju-village.jpg','photo-1516026672322-bc52d61a55d5'),IMG('images/suopo-towers.jpg','photo-1624526267949-1dff4ab0ab37'),IMG('images/zhonglu-village.jpg','photo-1596513315467-9b6c9c14a58a'),IMG('images/tagong-grassland.jpg','https://images.pexels.com/photos/3225517/pexels-photo-3225517.jpeg?auto=compress&cs=tinysrgb&w=800'),IMG('images/yala-snowmountain.jpg','photo-1501785888041-af3ef285b470'),IMG('images/muya-temple.jpg','photo-1488646953014-85cb44e25828'),IMG('images/tagong-temple.jpg','photo-1528411961782-14b34054aa71'),IMG('images/zheduo-pass.jpg','https://images.pexels.com/photos/1366919/pexels-photo-1366919.jpeg?auto=compress&cs=tinysrgb&w=800'),IMG('images/kangding-oldtown.jpg','photo-1518509562904-e7ef9938ce32'),IMG('images/gongga-snowmountain.jpg','photo-1454496522488-7a8e488e8606'),IMG('images/hailuogou.jpg','photo-1519681393784-d120267933ba'),IMG('images/siguniang-mountain.jpg','photo-1455156218388-5e61b526818b'),IMG('images/xinduqiao.jpg','https://images.pexels.com/photos/2102435/pexels-photo-2102435.jpeg?auto=compress&cs=tinysrgb&w=800')];
+
+const DAYS=[{n:0,w:'周三',date:'7月8日',title:'抵达重庆',desc:'晚间抵达山城重庆，入住酒店休息。推开窗，两江的灯火在夜色中闪烁，为明天的探索养精蓄锐。',hotel:'重庆酒店',alt:'300m',moves:['晚抵重庆','入住休息','两江夜景']},{n:1,w:'周四',date:'7月9日',title:'山城经典',desc:'探索重庆的魔幻地形——解放碑的繁华、洪崖洞的璀璨、千厮门大桥的壮阔。8D城市的每一个转角都有惊喜。',hotel:'重庆酒店',alt:'300m',moves:['解放碑','洪崖洞','山城步道']},{n:2,w:'周五',date:'7月10日',title:'重庆深度',desc:'上午三峡博物馆读懂长江文明，下午在十八梯的老街巷里穿行，傍晚乘长江索道飞渡天堑。',hotel:'重庆酒店',alt:'300m',moves:['三峡博物馆','十八梯','长江索道']},{n:3,w:'周六',date:'7月11日',title:'穿楼轻轨·转场成都',desc:'上午看李子坝轻轨穿楼而过，逛鹅岭二厂文创园。午后乘高铁前往成都，傍晚入住，在巷子里找一家地道火锅。',hotel:'成都酒店',alt:'300m→500m',moves:['李子坝轻轨','鹅岭二厂','高铁赴蓉']},{n:5,w:'周一',date:'7月13日',title:'蜀韵慢调',desc:'上午体验蜀锦织造的指尖艺术，下午在人民公园喝盖碗茶发呆，晚上看一场川剧变脸。成都的安逸，都融在这一天里。',hotel:'成都酒店',alt:'500m',moves:['蜀锦体验','人民公园','川剧变脸']},{n:4,w:'周日',date:'7月12日',title:'三星堆探秘',desc:'全天沉浸三星堆博物馆——青铜神树、纵目面具、黄金权杖。古蜀文明的神秘与震撼，让人忘记时间。',hotel:'成都酒店',alt:'500m',moves:['三星堆博物馆','青铜神树','古蜀文明']},{n:6,w:'周二',date:'7月14日',title:'向高原出发',desc:'包车出发，沿318国道向西。穿过二郎山隧道就像穿过任意门，扑面而来的是高原的烈风与蓝天。傍晚抵达丹巴，甲居藏寨在夕阳下静默如诗。',hotel:'丹巴酒店',alt:'500m→1,800m',moves:['318国道西行','二郎山隧道','甲居藏寨']},{n:7,w:'周三',date:'7月15日',title:'丹巴秘境',desc:'在丹巴放慢脚步——梭坡古碉群屹立千年，中路藏寨散落在山谷。在高山峡谷间穿行，感受嘉绒藏族的文化厚度。',hotel:'丹巴酒店',alt:'1,800m',moves:['梭坡古碉','中路藏寨','藏寨休整']},{n:8,w:'周四',date:'7月16日',title:'驶向八美',desc:'驱车前往八美，海拔3500m的高原草甸豁然开朗。塔公草原在脚下无尽铺展，雅拉雪山的雪顶在天际线静静伫立。这是旅途的高潮。',hotel:'八美酒店',alt:'1,800m→3,500m',moves:['高原草甸','雅拉雪山','高原日落']},{n:9,w:'周五',date:'7月17日',title:'塔公深度',desc:'深入塔公草原——木雅大寺金色殿顶在蓝天下闪耀，塔公寺红墙斑驳。在草原上躺下来看云，高原让时间变慢，让心变轻。',hotel:'八美酒店',alt:'3,500m',moves:['木雅大寺','塔公寺','草原放空']},{n:10,w:'周六',date:'7月18日',title:'康定情歌',desc:'翻越折多山垭口——康巴第一关，海拔4298米。回望来路，318国道如丝带缠绕群山。抵达康定，跑马溜溜的山上，情歌在山谷回荡。',hotel:'康定酒店',alt:'3,500m→2,600m',moves:['折多山垭口','康定古城','高原温泉']},{n:11,w:'周日',date:'7月19日',title:'归程',desc:'从康定返回成都，一路下坡回到平原。在成都最后的晚餐后飞回上海。12天的旅程结束了，身体回到平原，心还留在高原。',hotel:'回家',alt:'2,600m→500m',moves:['返回成都','飞回上海','慢慢回到自己']}];
+const RT=[{n:'重庆',a:'300m'},{n:'成都',a:'500m'},{n:'丹巴',a:'1,800m'},{n:'八美',a:'3,500m'},{n:'康定',a:'2,600m'},{n:'成都',a:'500m'}];
+const PR=[{n:1,t:'慢',d:'宁愿少去一个地方，也不要多赶一次路。每天开车不超过4小时。'},{n:2,t:'早',d:'高原的清晨最美。每天7点前出发，中午最热时休息。'},{n:3,t:'水',d:'高原补水是关键。每人每天至少1.5L，车上常备保温杯。'},{n:4,t:'松',d:'不设定严格时间表。遇到喜欢的地方就停下来，让旅途自由呼吸。'},{n:5,t:'家',d:'这是一次家庭旅行，不是打卡。尊重每个人的节奏，享受在一起的时光。'}];
+const PLACES=[{title:'洪崖洞夜景',loc:'重庆 · 渝中区',desc:'依山而建的吊脚楼群，入夜后灯火璀璨，仿佛千与千寻里的汤屋。站在千厮门大桥上望去，两江交汇的夜风吹过面颊，对岸霓虹如水般流动。红灯笼一串串挂满层层叠叠的屋檐，江面倒映着金色光影，恍如隔世。',tag:'经典',h:240},{title:'磁器口古镇',loc:'重庆 · 沙坪坝',desc:'千年古镇，石板路两旁是明清风格的老建筑。陈麻花的香味飘满整条街，毛血旺在锅里咕嘟咕嘟冒着热气，每一步都踩在旧时光里。沿着石阶爬上爬下，转角总能遇见意想不到的小店——卖手工糍粑的阿姨、做糖画的老爷爷。',tag:'古镇',h:180},{title:'长江索道',loc:'重庆 · 渝中',desc:'在山城有一种通勤叫飞过去。长江索道横跨1166米，日落时分乘上去，整座城市在金色光线里缓缓展开，江水在脚下奔流不息。车厢晃晃悠悠地滑过江面，对岸的高楼渐渐清晰，像在胶片电影里穿行。',tag:'体验',h:200},{title:'解放碑',loc:'重庆 · 渝中区',desc:'重庆的精神地标。环绕的摩天大楼与这座历史丰碑形成奇妙对照，八一路好吃街上酸辣粉的香气是这座城市最诚实的欢迎词。入夜后整片商圈灯火通明，奢侈品橱窗和街头小吃摊和谐共处，这就是重庆的包容。',tag:'地标',h:210},{title:'李子坝轻轨穿楼',loc:'重庆 · 渝中',desc:'轻轨从19层高的居民楼中间穿过——不是特效，是重庆人的日常。站在观景台上仰望，列车像一只穿山甲钻进水泥森林。这一站的设计曾经被全世界媒体报道，但对住在这栋楼里的居民来说，不过是每天回家的方式。',tag:'奇观',h:220},{title:'十八梯老街',loc:'重庆 · 渝中',desc:'从上半城到下半城的垂直通道，层层叠叠的石阶记录着老重庆的烟火人间。改造后的老街在保留记忆的同时长出了新的生命力——咖啡馆开在老茶馆隔壁，独立书店的橱窗对着卖手工辣椒面的摊位，新旧在此温柔交融。',tag:'老街',h:195},{title:'大熊猫繁育基地',loc:'成都 · 成华区',desc:'早上九点熊猫们正在享用早餐。幼年熊猫在树上打闹，圆滚滚的身子挂在枝头晃悠。这是成都最治愈的早晨，没有之一。看着它们慢悠悠地啃竹子、在草地上打滚，你会忘记所有烦恼——国宝的日常就是最好的心灵按摩。',tag:'经典',h:250},{title:'宽窄巷子',loc:'成都 · 青羊区',desc:'青砖灰瓦的四合院里藏着咖啡馆和手作坊。找一棵银杏树下的位置点一杯盖碗茶——成都的安逸都在这一盏茶里，时光可以慢到停滞。宽巷子热闹、窄巷子安静、井巷子文艺，三条巷子各有各的节奏，逛完正好一个下午。',tag:'慢生活',h:210},{title:'锦里古街',loc:'成都 · 武侯区',desc:'三国故里的灯火从不熄灭。红灯笼把整条街染成暖橙色，糖画、变脸、皮影戏——蜀地的热闹和诗意都揉在了一起，越夜越迷人。明清风格的木楼在灯光下格外温暖，戏台上的川剧高腔穿透夜空，游客和本地人挤在一起叫好。',tag:'夜游',h:190},{title:'三星堆博物馆',loc:'广汉 · 三星堆',desc:'青铜神树三米高、纵目面具半米宽——古蜀人用青铜铸造了一个外星文明般的奇幻世界。站在这些文物面前，三千年的距离被压缩成一声惊叹。没有人知道他们从哪里来，又去了哪里，只留下这些沉默的青铜在诉说一个失落文明的辉煌。',tag:'文明',h:230},{title:'人民公园',loc:'成都 · 青羊区',desc:'成都慢生活的原点。鹤鸣茶社里竹椅吱呀，盖碗茶热气氤氲，隔壁的相亲角热闹非凡。在这里坐一下午，你会明白什么叫来了就不想走。掏耳朵的师傅敲着金属夹子从身边走过，那清脆的叮当声是成都特有的背景音乐。',tag:'慢生活',h:200},{title:'武侯祠',loc:'成都 · 武侯区',desc:'三国迷的精神圣地。丞相祠堂何处寻，锦官城外柏森森。红墙夹道、古柏参天，出师表的文字在石碑上静静诉说着鞠躬尽瘁的故事。走在惠陵的神道上，两侧的石兽已经守望了千年，风吹过竹林的声音像是在背诵前后出师表。',tag:'三国',h:205},{title:'二郎山隧道',loc:'318国道 · 川藏线',desc:'穿过4176米长的隧道就像穿过一道任意门。进洞前还是四川盆地的湿润雾气，出洞后扑面而来的是高原的烈风与蓝天——欢迎来到川西。两侧的风景在一瞬间切换，从青山绿水到苍茫高原，大自然用一条隧道画了一条分界线。',tag:'自驾',h:195},{title:'甲居藏寨',loc:'丹巴 · 甘孜州',desc:'中国最美乡村不是说说而已。百余座藏式碉楼散落在山坡上，黄昏时分夕阳把整片山谷染成金红色，炊烟从每座碉楼顶升起——这是嘉绒藏族人写给大地的诗。春天梨花白如雪，秋天层林尽染，美得像一幅油画。',tag:'最美乡村',h:260},{title:'梭坡古碉群',loc:'丹巴 · 甘孜州',desc:'千年前的摩天大楼。高达30米的石砌古碉没有一根钢筋，全靠石块之间的咬合力屹立千年。站在碉楼下仰望，风穿过石缝的声音像来自唐朝的耳语。这些古碉是嘉绒藏族先民用来御敌和储存粮食的，每一座都藏着一个家族的兴衰故事。',tag:'历史',h:215},{title:'中路藏寨',loc:'丹巴 · 甘孜州',desc:'比甲居更隐秘的藏寨秘境。春天梨花如雪覆盖山谷，秋天层林尽染。这里的碉楼与经幡在晨雾中若隐若现，美得像一幅还没干透的水墨画。几乎没有游客，只有当地的藏族老人在村口晒太阳、转经筒，时光在这里是静止的。',tag:'藏寨',h:245},{title:'塔公草原',loc:'八美 · 甘孜州',desc:'海拔3500米的高原草甸，天地之间只有风声、牦牛和自己。雅拉雪山的雪顶在天际线静静伫立，经幡在风中猎猎作响，把祝福送往远方。躺在草地上看云卷云舒，高原的阳光温暖而不刺眼，时间在这一刻失去了意义。',tag:'草原',h:250},{title:'雅拉雪山',loc:'八美 · 甘孜州',desc:'蜀山之王的姐妹峰。日出时分第一缕阳光把雪峰染成玫红色，倒映在塔公草原的海子里。那一刻你会相信，山是有灵魂的。藏族人说雅拉是莲花生的化身，每年都有信徒从远方赶来转山祈福，绕着雪山一步一叩首。',tag:'雪山',h:220},{title:'木雅大寺',loc:'八美 · 甘孜州',desc:'高原上的信仰之地。金色的殿顶在蓝天白云下格外耀眼，绛红色的僧袍在白色佛塔间穿行。推开厚重的木门，酥油灯的微光里藏着千年的虔诚。寺院的辩经场上年轻僧人们的击掌声此起彼伏，那是在用身体和声音辩论佛法的真谛。',tag:'寺庙',h:200},{title:'塔公寺',loc:'八美 · 甘孜州',desc:'塔公草原上的千年古刹，红墙金顶在高原阳光下熠熠生辉。寺内供奉的释迦牟尼十二岁等身像，让这里成为川西藏族心中的圣地。清晨的诵经声从大殿里飘出，和草原上的风混在一起，即使听不懂经文也会被那种庄严肃穆感染。',tag:'寺庙',h:185},{title:'折多山垭口',loc:'康定 · 甘孜州',desc:'康巴第一关，海拔4298米。站在垭口回望来路，318国道像一条细细的丝带缠绕在群山中。经幡在狂风中翻飞，每飘动一次就是念了一遍经文。空气稀薄但清冽，每一次深呼吸都提醒你——你正站在离天空最近的地方。',tag:'自驾',h:230},{title:'康定古城',loc:'康定 · 甘孜州',desc:'跑马溜溜的山上，一朵溜溜的云。情歌的旋律渗进了古城的每一条石板路。折多河穿城而过，两岸的藏式木楼倒映在水中，是高原上最温柔的夜景。傍晚沿着河边散步，藏餐馆里飘出酥油茶的香气，街头艺人拉着弦子唱着古老的情歌。',tag:'古城',h:210},{title:'贡嘎雪山',loc:'甘孜州 · 蜀山之王',desc:'海拔7556米，四川最高峰。日出时分的日照金山是川西最壮丽的自然奇观——金色的阳光从峰顶缓缓向下流淌，整座雪山像被点燃了一样。这座山是登山者的终极梦想，登顶成功率不到30%，但对大多数人来说，远远看一眼已经足够铭记一生。',tag:'雪山',h:240},{title:'海螺沟冰川',loc:'泸定 · 甘孜州',desc:'低海拔现代冰川的奇迹。巨大的冰舌从贡嘎山脚一直伸入原始森林，冰与绿共存的奇观让人恍惚——这是在同一个星球上吗？乘坐缆车缓缓接近冰川，脚下是从亚热带到寒带的完整植被带谱，一小时之内穿越了四个季节。',tag:'自然',h:240},{title:'四姑娘山',loc:'阿坝 · 小金',desc:'四位冰雪女王并肩而立。双桥沟、长坪沟、海子沟——每一条沟都是一条通往仙境的走廊。秋天的彩林倒映在海子里，比油画还要不真实。幺妹峰海拔6250米是四姐妹中最美的，也是技术攀登的圣地，被称为东方的阿尔卑斯。',tag:'雪山',h:235},{title:'新都桥',loc:'康定 · 甘孜州',desc:'摄影家的天堂，不是景点却胜过景点。秋天杨树金黄、藏寨散落、光影交错，随便举起相机按下快门，就是一张明信片。这里是318国道上最美的10公里，清晨的薄雾缠绕在山腰，傍晚的炊烟从碉楼上升起，每一帧都是大片。',tag:'摄影天堂',h:225}];
+
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+function store(k,v){try{if(v===undefined){const r=localStorage.getItem(k);return r?JSON.parse(r):null}localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(t._tid);t._tid=setTimeout(()=>t.classList.remove('show'),1800)}
+function stagger(c){c.querySelectorAll('.fade-up:not(.in)').forEach((el,i)=>{setTimeout(()=>{el.style.transitionDelay='0s';el.classList.add('in')},i*28)})}
+
+// Get today's day index (D0 = July 8, D1 = July 9, etc.)
+function getTodayIndex(){const now=new Date();const j8=new Date(2026,6,8);const diff=Math.floor((now-j8)/(1000*60*60*24));return Math.max(0,Math.min(11,diff))}
+function getGreeting(){const h=new Date().getHours();if(h>=5&&h<12)return '早上好';if(h>=12&&h<14)return '中午好';if(h>=14&&h<18)return '下午好';return '晚上好'}
+
+// ─── MOUNTAIN SVG — real mountain shape, solid fill, altitude labels, fixed snow caps ───
+function makeMountainSVG(){
+  const W=600,H=240,PAD=30,baseY=H-PAD-10;
+  const pts=RT.map(r=>parseInt(r.a.replace(/,/g,'')));
+  const maxA=3800;
+  const xs=RT.map((_,i)=>PAD+(i/(RT.length-1))*(W-PAD*2));
+  const ys=pts.map(v=>baseY-(v/maxA)*(baseY-28));
+  const hh=(x,s)=>{const n=Math.sin(x*0.437+s)*43758.5453;return n-Math.floor(n)};
+  let ridge=xs.map((x,i)=>({x,y:ys[i]}));
+  for(let iter=0;iter<5;iter++){
+    const nr=[];
+    for(let i=0;i<ridge.length-1;i++){
+      nr.push(ridge[i]);
+      const mx=(ridge[i].x+ridge[i+1].x)/2;
+      const my=(ridge[i].y+ridge[i+1].y)/2;
+      const roughness=(ridge[i+1].x-ridge[i].x)*0.08*Math.pow(0.5,iter);
+      nr.push({x:mx,y:my-(hh(mx,iter*7+i*13)-0.25)*roughness*2});
+    }
+    nr.push(ridge[ridge.length-1]);
+    ridge=nr;
+  }
+  // Mountain silhouette fill — solid color, no gradient
+  let areaD=`M${ridge[0].x},${baseY}`;
+  for(const p of ridge)areaD+=` L${p.x},${p.y}`;
+  areaD+=` L${ridge[ridge.length-1].x},${baseY} Z`;
+  // Ridge line
+  let lineD=`M${ridge[0].x},${ridge[0].y}`;
+  for(let i=1;i<ridge.length;i++)lineD+=` L${ridge[i].x},${ridge[i].y}`;
+  // Snow caps — find peaks (points higher than both neighbors)
+  let snow='';
+  const peakIndices=[];
+  for(let i=1;i<ridge.length-1;i++){
+    if(ridge[i].y<ridge[i-1].y&&ridge[i].y<ridge[i+1].y){
+      peakIndices.push(i);
+    }
+  }
+  // Draw snow on the highest few peaks
+  const peakHeights=peakIndices.map(i=>({i,y:ridge[i].y})).sort((a,b)=>a.y-b.y);
+  const snowPeaks=new Set(peakHeights.slice(0,Math.min(6,peakHeights.length)).map(p=>p.i));
+  for(const i of peakIndices){
+    if(!snowPeaks.has(i))continue;
+    const px=ridge[i].x, py=ridge[i].y;
+    const w=14+(baseY-py)*0.03;
+    snow+=`<ellipse cx="${px}" cy="${py+1}" rx="${w}" ry="${w*0.38}" class="mtn-snow"/>`;
+    snow+=`<ellipse cx="${px-3}" cy="${py-1}" rx="${w*0.45}" ry="${w*0.18}" class="mtn-snow" opacity="0.45"/>`;
+  }
+  // Altitude labels — every station gets one above its x position
+  let altLabels='';
+  xs.forEach((x,i)=>{
+    altLabels+=`<text x="${x}" y="${ys[i]-12}" class="mtn-alt">${RT[i].a}</text>`;
+  });
+  // Place name labels — bigger font
+  let labels='';
+  xs.forEach((x,i)=>{
+    labels+=`<text x="${x}" y="${H-6}" class="mtn-label">${RT[i].n}</text>`;
+  });
+  return`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet"><path d="${areaD}" class="mtn-fill"/><path d="${lineD}" class="mtn-line"/>${snow}${altLabels}${labels}</svg>`;
+}
+
+function renderHome(){
+  const ti=getTodayIndex();
+  const today=DAYS[ti];
+  const greeting=getGreeting();
+
+  // Orbit stones
+  const R=5,orbR=38;
+  let stones='';PR.forEach((p,i)=>{const angle=(i/R)*2*Math.PI-Math.PI/2;const l=50+orbR*Math.cos(angle),t=50+orbR*Math.sin(angle);stones+=`<div class="orbit-stone" data-pi="${i}" style="left:${l}%;top:${t}%">${p.t}</div>`});
+
+  return `
+    <!-- HERO: fixed today's location image, time greeting, location capsule -->
+    <div class="hero-banner fade-up" style="margin-top:calc(var(--safe-t) * -1);padding-top:var(--safe-t)">
+      ${DIMG[ti].toHTML(today.title,'')}
+      <div class="hb-overlay"></div>
+      <div class="hb-capsule">${today.title}</div>
+      <div class="hb-text">
+        <div class="hb-greeting">${greeting}，今天出发去</div>
+        <div class="hb-location">${today.title}</div>
+      </div>
+    </div>
+
+    <!-- TODAY STRIP — above principles -->
+    <div class="today-strip fade-up">${DIMG[ti].toHTML(today.title,'ts-img')}<div class="ts-info"><div class="ts-overline">今日行程 · ${today.date} ${today.w}</div><div class="ts-title">${today.title}</div><div class="ts-detail">${today.desc.slice(0,50)}...</div></div></div>
+
+    <!-- ORBITING PRINCIPLES -->
+    <div class="orbit-wrap fade-up"><div class="ow-header"><h3>旅行原则</h3><p>点击石子 · 拖动旋转</p></div>
+    <div class="orbit-stage" id="orbitStage"><div class="orbit-guide"></div><div class="orbit-track" id="orbitTrack">${stones}</div><div class="orbit-desc"><div class="od-text" id="odText"><div class="od-word"></div><div class="od-detail"></div></div></div></div></div>
+
+    <div class="quick-stats fade-up"><div class="quick-stat"><div class="qs-val">12</div><div class="qs-label">天旅程</div></div><div class="quick-stat"><div class="qs-val">3,500<span style="font-size:14px;font-weight:400">m</span></div><div class="qs-label">最高海拔</div></div><div class="quick-stat"><div class="qs-val">5</div><div class="qs-label">次住宿</div></div></div>
+
+    <!-- ROUTE + MOUNTAIN -->
+    <div class="route-explorer fade-up"><div class="rx-header"><h3>路线</h3><span>海拔一览</span></div><div class="mtn-chart-wrap">${makeMountainSVG()}</div></div>
+
+    <div class="end-quote fade-up">"宁愿少去一个地方<br><strong>也不要多赶一次路</strong>"</div>`;
+}
+
+function renderTrip(){
+  const DOW=['一','二','三','四','五','六','日'];
+  const july1Dow=2;
+  const tripStart=8, tripEnd=19;
+  let dowRow=DOW.map(d=>`<div class="cal-dow">${d}</div>`).join('');
+  let cells='';
+  for(let i=0;i<july1Dow;i++) cells+='<div class="cal-cell hidden-cell"></div>';
+  for(let d=1;d<=31;d++){
+    const inTrip=d>=tripStart&&d<=tripEnd;
+    if(inTrip){
+      const dayIndex=d-tripStart;
+      const dayData=DAYS[dayIndex];
+      const dow=DOW[(july1Dow+d-1)%7];
+      const movesHTML=dayData.moves.map(m=>`<span>${esc(m)}</span>`).join('');
+      cells+=`<div class="cal-day fade-up" data-day="${dayIndex}">
+        <span class="cd-num">${d}</span><span class="cd-wd">周${dow}</span>
+        ${DIMG[dayIndex].toHTML(dayData.title,'cd-photo')}
+        <div class="cd-detail">
+          <div class="cdd-title">${esc(dayData.title)}</div>
+          <div class="cdd-moves">${movesHTML}</div>
+          <div class="cdd-meta">${esc(dayData.hotel)} · ${esc(dayData.alt)}</div>
+          <button class="cd-collapse" data-collapse="${dayIndex}">收起 ▲</button>
+        </div>
+      </div>`;
+    }else{
+      cells+='<div class="cal-cell hidden-cell"></div>';
+    }
+  }
+  return`<div class="cal-header"><h2>2026年7月</h2><p>川西环线 · 12天 · 点击日期展开详情</p></div><div class="cal-grid">${dowRow}${cells}</div>`;
+}
+
+// ─── DISCOVER: random order, infinite scroll ───
+let discoverBatch=[], discoverShown=0;
+function shuffleDiscover(){
+  discoverBatch=[...PLACES].sort(()=>Math.random()-0.5);
+  discoverShown=0;
+}
+function loadMoreDiscover(count){
+  const items=[];
+  for(let i=0;i<count;i++){
+    if(discoverShown>=discoverBatch.length){discoverBatch=[...PLACES].sort(()=>Math.random()-0.5);discoverShown=0}
+    items.push(discoverBatch[discoverShown]);
+    discoverShown++;
+  }
+  return items;
+}
+function appendDiscoverItems(count){
+  const masonry=$('#page-check .masonry');
+  if(!masonry)return;
+  const items=loadMoreDiscover(count);
+  let html='';
+  items.forEach((p,idx)=>{const realIdx=PLACES.indexOf(p);html+=`<div class="masonry-item fade-up" data-pi="${realIdx}">${PIMG[realIdx].toHTML(p.title,'')}<div class="mi-info"><div class="mi-title">${esc(p.title)}</div><div class="mi-desc">${esc(p.desc)}</div><span class="mi-tag">${esc(p.tag)}</span></div></div>`});
+  masonry.insertAdjacentHTML('beforeend',html);
+  requestAnimationFrame(()=>{masonry.querySelectorAll('.fade-up:not(.in)').forEach(el=>el.classList.add('in'))});
+}
+
+function renderDiscover(){
+  shuffleDiscover();
+  const initial=loadMoreDiscover(20);
+  let h='';initial.forEach((p,idx)=>{const realIdx=PLACES.indexOf(p);h+=`<div class="masonry-item fade-up" data-pi="${realIdx}">${PIMG[realIdx].toHTML(p.title,'')}<div class="mi-info"><div class="mi-title">${esc(p.title)}</div><div class="mi-desc">${esc(p.desc)}</div><span class="mi-tag">${esc(p.tag)}</span></div></div>`});
+  return`<div class="disc-head"><h2>好去处</h2><p>一路上的 ${PLACES.length} 个心动时刻 · 随机探索</p></div><div class="masonry">${h}</div><div id="discSentinel"></div>`;
+}
+
+function renderSettings(){
+  return`<div class="set-wrap"><h2>设置</h2>
+    <div class="set-block"><div class="sb-label">行程摘要</div><div class="set-card"><div class="trip-summary"><div class="ts-col"><div class="tsc-num">12</div><div class="tsc-label">天</div></div><div class="ts-col"><div class="tsc-num">6</div><div class="tsc-label">座城市</div></div><div class="ts-col"><div class="tsc-num">3,500<span style="font-size:10px">m</span></div><div class="tsc-label">最高海拔</div></div><div class="ts-col"><div class="tsc-num">5</div><div class="tsc-label">次住宿</div></div></div></div></div>
+    <div class="set-block"><div class="sb-label">数据</div><div class="set-card">
+      <div class="set-row tappable" id="exportData"><span class="srl">导出行程数据</span><span class="srv">JSON</span></div>
+      <div class="set-row danger" id="resetData"><span class="srl">重置所有数据</span><span class="srv">清除</span></div>
+    </div></div>
+    <div class="set-block"><div class="sb-label">关于</div><div class="set-card"><div class="set-row"><span class="srl">川西家庭旅行</span><span class="srv">2026年7月</span></div><div class="set-row"><span class="srl">版本</span><span class="srv">Beta 5</span></div></div></div>
+    <div class="end-quote">"慢慢进入高原<br><strong>慢慢回到自己</strong>"</div></div>`;
+}
+
+// ─── TAB LOGIC ───
+let currentTab=null,expandedDay=null;
+function movePill(name){const btn=document.querySelector(`.tab-item[data-tab="${name}"]`),pill=$('#tabPill');if(!btn||!pill)return;pill.style.left=btn.offsetLeft+'px';pill.style.width=btn.offsetWidth+'px'}
+function switchTab(name){const old=$('.page.on'),np=$('#page-'+name);if(!np||old===np)return;$$('.tab-item').forEach(b=>b.classList.remove('active'));const nb=document.querySelector(`.tab-item[data-tab="${name}"]`);if(nb)nb.classList.add('active');movePill(name);if(old)old.classList.remove('on');np.classList.add('on');$('#mainContent').scrollTop=0;currentTab=name;store('sctab3',name);requestAnimationFrame(()=>stagger(np));if(name==='check')setupInfiniteScroll()}
+function renderTab(name){if(name==='home')$('#page-home').innerHTML=renderHome();else if(name==='trip')$('#page-trip').innerHTML=renderTrip();else if(name==='check')$('#page-check').innerHTML=renderDiscover();else if(name==='settings'){$('#page-settings').innerHTML=renderSettings();bindSettings()}switchTab(name)}
+
+// ─── ORBIT ───
+function setupOrbit(){
+  let isDragging=false,startAngle=0,currentAngle=0,totalAngle=0;
+  document.addEventListener('mousedown',e=>{const stage=e.target.closest('#orbitStage');if(!stage)return;const track=stage.querySelector('.orbit-track');if(!track)return;isDragging=true;const r=stage.getBoundingClientRect();startAngle=Math.atan2(e.clientY-r.top-r.height/2,e.clientX-r.left-r.width/2);track.classList.add('paused');stage.querySelectorAll('.orbit-stone').forEach(s=>s.classList.add('paused'))});
+  window.addEventListener('mousemove',e=>{if(!isDragging)return;const stage=document.querySelector('#orbitStage');if(!stage)return;const track=stage.querySelector('.orbit-track');if(!track)return;const r=stage.getBoundingClientRect();currentAngle=Math.atan2(e.clientY-r.top-r.height/2,e.clientX-r.left-r.width/2);totalAngle+=(currentAngle-startAngle);startAngle=currentAngle;track.style.rotate=`${totalAngle*180/Math.PI}deg`});
+  window.addEventListener('mouseup',()=>{if(!isDragging)return;isDragging=false;const stage=document.querySelector('#orbitStage');if(stage){const track=stage.querySelector('.orbit-track');if(track)track.classList.remove('paused');stage.querySelectorAll('.orbit-stone').forEach(s=>s.classList.remove('paused'))}});
+  document.addEventListener('touchstart',e=>{const stage=e.target.closest('#orbitStage');if(!stage)return;const track=stage.querySelector('.orbit-track');if(!track)return;isDragging=true;const t=e.touches[0],r=stage.getBoundingClientRect();startAngle=Math.atan2(t.clientY-r.top-r.height/2,t.clientX-r.left-r.width/2);track.classList.add('paused');stage.querySelectorAll('.orbit-stone').forEach(s=>s.classList.add('paused'))},{passive:true});
+  window.addEventListener('touchmove',e=>{if(!isDragging)return;const stage=document.querySelector('#orbitStage');if(!stage)return;const track=stage.querySelector('.orbit-track');if(!track)return;const t=e.touches[0],r=stage.getBoundingClientRect();currentAngle=Math.atan2(t.clientY-r.top-r.height/2,t.clientX-r.left-r.width/2);totalAngle+=(currentAngle-startAngle);startAngle=currentAngle;track.style.rotate=`${totalAngle*180/Math.PI}deg`},{passive:true});
+  window.addEventListener('touchend',()=>{if(!isDragging)return;isDragging=false;const stage=document.querySelector('#orbitStage');if(stage){const track=stage.querySelector('.orbit-track');if(track)track.classList.remove('paused');stage.querySelectorAll('.orbit-stone').forEach(s=>s.classList.remove('paused'))}});
+}
+
+// ─── BENTO SHEET ───
+const CLOSE_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+
+function openDaySheet(dayIndex){
+  const d=DAYS[dayIndex];if(!d)return;
+  const sc=$('#sheetContent');
+  let h=`<button class="sheet-close" id="sheetClose">${CLOSE_ICON}</button><div class="sheet-handle"></div>`;
+  h+=`<div style="position:relative;width:100%;height:200px;overflow:hidden;background:var(--border);border-radius:var(--r-lg) var(--r-lg) 0 0">${DIMG[dayIndex].toHTML(d.title,'sheet-img')}</div>`;
+  h+=`<div class="sheet-body"><span class="sh-chip">第 ${d.n} 天</span> <span style="font-size:11px;color:var(--t3);margin-left:6px">${d.w} · ${d.date}</span><h3>${esc(d.title)}</h3><div class="sh-desc">${esc(d.desc)}</div><div class="sh-tags">${d.moves.map(m=>`<span>${esc(m)}</span>`).join('')}</div><div class="sh-meta"><span>🏠 ${esc(d.hotel)}</span><span>⛰ ${esc(d.alt)}</span></div></div>`;
+  sc.innerHTML=h;
+  const cb=document.getElementById('sheetClose');if(cb)cb.addEventListener('click',closeSheet);
+  $('#sheetOverlay').style.display='block';
+}
+
+function openPostDetail(idx){
+  const p=PLACES[idx];if(!p)return;
+  const sc=$('#sheetContent');
+  let h=`<button class="sheet-close" id="sheetClose">${CLOSE_ICON}</button>`;
+  h+=`<div style="border-radius:var(--r-lg) var(--r-lg) 0 0;overflow:hidden">${PIMG[idx].toHTML(p.title,'sheet-img')}</div>`;
+  h+=`<div class="sheet-body"><span class="sh-chip">${esc(p.tag)}</span> <span style="font-size:11px;color:var(--t3);margin-left:6px">${esc(p.loc)}</span><h3>${esc(p.title)}</h3><div class="sh-desc">${esc(p.desc)}</div></div>`;
+  sc.innerHTML=h;
+  const cb=document.getElementById('sheetClose');if(cb)cb.addEventListener('click',closeSheet);
+  $('#sheetOverlay').style.display='block';
+}
+
+function closeSheet(){$('#sheetOverlay').style.display='none'}
+
+// ─── CALENDAR INLINE EXPAND ───
+function expandCalDay(dayIndex){
+  if(expandedDay===dayIndex){collapseCalDay();return}
+  collapseCalDay();
+  expandedDay=dayIndex;
+  const el=document.querySelector(`.cal-day[data-day="${dayIndex}"]`);
+  if(!el)return;
+  el.classList.add('expanded','active');
+  // Hide sibling cells in this row (grid-column:1/-1 pushes them down)
+  const grid=$('.cal-grid');
+  const allCells=[...grid.querySelectorAll('.cal-day,.cal-cell')];
+  const idx=allCells.indexOf(el);
+  if(idx>=0){
+    const rowStart=Math.floor(idx/7)*7;
+    const rowEnd=rowStart+7;
+    for(let i=rowStart;i<rowEnd;i++){
+      if(i!==idx&&allCells[i])allCells[i].style.display='none';
+    }
+  }
+  // Bind collapse
+  const cb=el.querySelector('.cd-collapse');
+  if(cb)cb.addEventListener('click',e=>{e.stopPropagation();collapseCalDay()});
+}
+
+function collapseCalDay(){
+  if(expandedDay===null)return;
+  const el=document.querySelector(`.cal-day[data-day="${expandedDay}"]`);
+  if(el){el.classList.remove('expanded','active')}
+  $$('.cal-cell,.cal-day').forEach(c=>c.style.display='');
+  expandedDay=null;
+}
+
+// ─── INFINITE SCROLL ───
+let scrollObserver=null;
+function setupInfiniteScroll(){
+  if(scrollObserver)scrollObserver.disconnect();
+  const sentinel=$('#discSentinel');
+  if(!sentinel)return;
+  scrollObserver=new IntersectionObserver(entries=>{
+    if(entries[0].isIntersecting){appendDiscoverItems(8)}
+  },{root:$('#mainContent'),rootMargin:'200px'});
+  scrollObserver.observe(sentinel);
+}
+
+// ─── NOTICE — shows every time ───
+function showAppNotice(){
+  $('#appNotice').style.display='flex';
+  $('#pnDismiss').addEventListener('click',()=>{$('#appNotice').style.display='none'});
+}
+
+// ─── SETTINGS ───
+function bindSettings(){
+  $('#exportData')?.addEventListener('click',()=>{const data={days:DAYS,route:RT,principles:PR,places:PLACES};const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='chuanxi-trip-2026.json';a.click();toast('已导出')});
+  $('#resetData')?.addEventListener('click',()=>{if(confirm('确定重置所有数据？')){try{localStorage.removeItem('scwelcomed3');localStorage.removeItem('sctab3');localStorage.removeItem('sctheme')}catch(e){}toast('已重置')}});
+}
+
+// ─── EVENTS + INIT ───
+function enterApp(){$('#welcome').classList.add('hide');$('#tabBar').classList.add('show');$('#mainContent').classList.add('on');store('scwelcomed3','1');renderTab('home');setTimeout(showAppNotice,800)}
+function setup(){
+  $$('.tab-item').forEach(b=>{b.addEventListener('click',()=>{if(b.dataset.tab!==currentTab)renderTab(b.dataset.tab)})});
+  $('#enterBtn').addEventListener('click',enterApp);
+  $('#sheetOverlay').addEventListener('click',e=>{if(e.target===$('#sheetOverlay'))closeSheet()});
+  $('#appNotice').addEventListener('click',e=>{if(e.target===$('#appNotice'))$('#appNotice').style.display='none'});
+  document.addEventListener('click',e=>{
+    const cd=e.target.closest('.cal-day');if(cd&&cd.dataset.day!==undefined&&!e.target.closest('.cd-collapse')){expandCalDay(parseInt(cd.dataset.day));return}
+    const mi=e.target.closest('.masonry-item');if(mi&&mi.dataset.pi!==undefined){openPostDetail(parseInt(mi.dataset.pi));return}
+    const ost=e.target.closest('.orbit-stone');if(ost&&ost.dataset.pi!==undefined){const p=PR[parseInt(ost.dataset.pi)];$$('.orbit-stone').forEach(s=>s.classList.remove('active'));ost.classList.add('active');const od=$('#odText');if(od){od.querySelector('.od-word').textContent=p.t;od.querySelector('.od-detail').textContent=p.d;od.classList.add('show')}return}
+    if(!e.target.closest('.orbit-stone')&&!e.target.closest('#orbitStage')){$$('.orbit-stone').forEach(s=>s.classList.remove('active'));const od=$('#odText');if(od)od.classList.remove('show')}
+  });
+}
+
+function init(){
+  // Dark mode: follow system only (no manual toggle)
+  $('#page-home').innerHTML=renderHome();$('#page-trip').innerHTML=renderTrip();$('#page-check').innerHTML=renderDiscover();$('#page-settings').innerHTML=renderSettings();
+  setup();bindSettings();setupOrbit();
+  const showed=store('scwelcomed3');
+  if(showed){$('#welcome').classList.add('hide');$('#tabBar').classList.add('show');$('#mainContent').classList.add('on');const tab=store('sctab3')||'home';$$('.tab-item').forEach(b=>{if(b.dataset.tab===tab)b.classList.add('active')});currentTab=tab;switchTab(tab);movePill(tab);setTimeout(showAppNotice,800)}
+  setTimeout(()=>{$('#splash').classList.add('hide');setTimeout(()=>{const s=$('#splash');if(s)s.style.display='none';if(!showed)$('#wPanel').classList.add('visible');document.querySelectorAll('.fade-up').forEach(el=>{const r=el.getBoundingClientRect();if(r.top<window.innerHeight)el.classList.add('in')})},500)},1800);
+}
+document.addEventListener('DOMContentLoaded',init);
+</script>
+</body>
+</html>
