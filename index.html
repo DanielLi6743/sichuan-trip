@@ -136,27 +136,28 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'SF Pro Display','P
 /* ═══════════════════════════════════════════
    HERO BANNER
    ═══════════════════════════════════════════ */
-.hero-banner{position:relative;margin:0;border-radius:0;overflow:hidden;height:340px;box-shadow:none}
-.hero-banner img{width:100%;height:100%;object-fit:cover;display:block}
-.hero-banner .hb-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.12) 0%,transparent 22%,rgba(0,0,0,.55) 100%)}
-.hero-banner .hb-text{position:absolute;bottom:22px;left:20px;right:20px;color:#fff}
-.hero-banner .hb-text .hb-greeting{font-size:12px;opacity:.82;margin-bottom:4px;font-weight:400;letter-spacing:.03em}
-.hero-banner .hb-text .hb-location{font-family:'Noto Serif SC','Songti SC',serif;font-size:32px;font-weight:700;line-height:1.12;text-shadow:0 2px 16px rgba(0,0,0,.35)}
+.hero-banner{position:relative;margin:0 0 36px;border-radius:0;overflow:visible;height:300px;box-shadow:none}
+.hero-banner img{width:100%;height:100%;object-fit:cover;display:block;border-radius:0}
+.hero-banner .hb-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.06) 0%,transparent 35%,rgba(0,0,0,.2) 100%);border-radius:0}
+.hero-banner .hb-text{position:absolute;bottom:-20px;left:14px;right:14px;background:var(--surface);color:var(--t1);border-radius:var(--r-lg);padding:16px 18px 14px;box-shadow:var(--shadow-md);border:1px solid var(--border)}
+.hero-banner .hb-text .hb-greeting{font-size:10px;color:var(--warm);margin-bottom:3px;font-weight:600;letter-spacing:.06em}
+.hero-banner .hb-text .hb-location{font-family:'Noto Serif SC','Songti SC',serif;font-size:22px;font-weight:700;line-height:1.2}
 .hero-banner .hb-capsule{position:absolute;top:calc(var(--safe-t) + 14px);right:16px;background:rgba(0,0,0,.22);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#fff;font-size:11px;font-weight:600;padding:6px 14px;border-radius:var(--r-full);letter-spacing:.05em;border:1px solid rgba(255,255,255,.18)}
 
 @media(min-width:768px){
-  .hero-banner{height:440px;margin:0;border-radius:0}
-  .hero-banner .hb-text{bottom:28px;left:28px;right:28px}
-  .hero-banner .hb-text .hb-location{font-size:40px}
+  .hero-banner{height:400px;margin:0 0 44px}
+  .hero-banner .hb-text{bottom:-24px;left:24px;right:24px;padding:20px 22px 18px}
+  .hero-banner .hb-text .hb-location{font-size:28px}
   .hero-banner .hb-capsule{top:20px;right:24px}
 }
 @media(min-width:1024px){
-  .hero-banner{height:480px}
-  .hero-banner .hb-text .hb-location{font-size:46px}
+  .hero-banner{height:440px}
+  .hero-banner .hb-text .hb-location{font-size:32px}
 }
 @media(min-width:1400px){
-  .hero-banner{height:520px}
-  .hero-banner .hb-text .hb-location{font-size:50px}
+  .hero-banner{height:480px}
+  .hero-banner .hb-text{left:32px;right:32px;padding:22px 26px 20px}
+  .hero-banner .hb-text .hb-location{font-size:36px}
 }
 
 /* ─── TODAY STRIP ─── */
@@ -501,7 +502,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'SF Pro Display','P
   <button class="tab-item" data-tab="trip"><span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>行程</button>
   <button class="tab-item" data-tab="check"><span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="12 6 14.5 10.5 19.5 11.5 16 15 16.5 20 12 18 7.5 20 8 15 4.5 11.5 9.5 10.5"/></svg></span>发现</button>
   <button class="tab-item" data-tab="settings"><span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>设置</button>
-  <div class="sidebar-footer">Beta 31</div>
+  <div class="sidebar-footer">Beta 32</div>
 </nav>
 
 <main id="mainContent">
@@ -540,9 +541,9 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'SF Pro Display','P
 /* ═══════════════════════════════════════════
    DATA
    ═══════════════════════════════════════════ */
-const IMG=(localPath,fallbackId)=>({src:fallbackId.startsWith('http')?fallbackId:`https://images.unsplash.com/${fallbackId}?w=800&q=80`,toHTML(alt,cls){return`<img class="${cls||''}" src="${this.src}" alt="${alt||''}" loading="lazy">`}});
-const DIMG=[IMG('images/day00-chongqing.jpg','photo-1588702547923-7093a6c3ba33'),IMG('images/day01-chongqing.jpg','photo-1559127457-0ed04ed5859e'),IMG('images/day02-chongqing.jpg','photo-1537531383496-f4749b66adab'),IMG('images/day03-transfer.jpg','photo-1590559899731-a382839e5549'),IMG('images/day05-chengdu.jpg','photo-1547981609-4b6bfe67ca0b'),IMG('images/day04-sanxingdui.jpg','photo-1577859623808-745673a568d2'),IMG('images/day06-danba.jpg','photo-1536922241985-e3e3ac00b8e5'),IMG('images/day07-danba.jpg','photo-1516026672322-bc52d61a55d5'),IMG('images/day08-bamei.jpg','photo-1506905925346-21bda4d32df4'),IMG('images/day09-tagong.jpg','photo-1464822759023-fed622ff2c3b'),IMG('images/day10-kangding.jpg','photo-1501785888041-af3ef285b470'),IMG('images/day11-return.jpg','photo-1488646953014-85cb44e25828')];
-const PIMG=[IMG('images/hongyadong.jpg','photo-1588702547923-7093a6c3ba33'),IMG('images/ciqikou.jpg','photo-1559127457-0ed04ed5859e'),IMG('images/yangtze-cableway.jpg','photo-1537531383496-f4749b66adab'),IMG('images/jiefangbei.jpg','photo-1559131397-47a91906b6f3'),IMG('images/liziba.jpg','photo-1559715541-f74f40ca0e80'),IMG('images/shibati.jpg','photo-1533661436227-1f920d1f202c'),IMG('images/panda-base.jpg','photo-1577859623808-745673a568d2'),IMG('images/kuanzhai-alley.jpg','photo-1590559899731-a382839e5549'),IMG('images/jinli.jpg','photo-1547981609-4b6bfe67ca0b'),IMG('images/sanxingdui.jpg','photo-1518886173421-28b28d25e3d9'),IMG('images/renmin-park.jpg','photo-1528164344705-47542687000d'),IMG('images/wuhouci.jpg','photo-1508804185872-d7bad8a2a4e7'),IMG('images/erlang-tunnel.jpg','photo-1464822759023-fed622ff2c3b'),IMG('images/jiaju-village.jpg','photo-1516026672322-bc52d61a55d5'),IMG('images/suopo-towers.jpg','photo-1624526267949-1dff4ab0ab37'),IMG('images/zhonglu-village.jpg','photo-1596513315467-9b6c9c14a58a'),IMG('images/tagong-grassland.jpg','photo-1506905925346-21bda4d32df4'),IMG('images/yala-snowmountain.jpg','photo-1501785888041-af3ef285b470'),IMG('images/muya-temple.jpg','photo-1488646953014-85cb44e25828'),IMG('images/tagong-temple.jpg','photo-1528411961782-14b34054aa71'),IMG('images/zheduo-pass.jpg','photo-1464822759023-fed622ff2c3b'),IMG('images/kangding-oldtown.jpg','photo-1518509562904-e7ef9938ce32'),IMG('images/gongga-snowmountain.jpg','photo-1454496522488-7a8e488e8606'),IMG('images/hailuogou.jpg','photo-1519681393784-d120267933ba'),IMG('images/siguniang-mountain.jpg','photo-1455156218388-5e61b526818b'),IMG('images/xinduqiao.jpg','photo-1516026672322-bc52d61a55d5')];
+const IMG=(localPath,fallbackId)=>({src:fallbackId.startsWith('http')?fallbackId:`https://images.unsplash.com/${fallbackId}?w=1200&q=85`,toHTML(alt,cls){return`<img class="${cls||''}" src="${this.src}" alt="${alt||''}" loading="lazy">`}});
+const DIMG=[IMG('images/day00-chongqing.jpg','photo-1514924013411-cbf25faa35bb'),IMG('images/day01-chongqing.jpg','photo-1494522855154-9297ac14b55f'),IMG('images/day02-chongqing.jpg','photo-1477959858617-67f85cf85f82'),IMG('images/day03-transfer.jpg','photo-1449824913935-59a10b8d2000'),IMG('images/day05-chengdu.jpg','photo-1547981609-4b6bfe67ca0b'),IMG('images/day04-sanxingdui.jpg','photo-1464366400600-7168b8af9bc3'),IMG('images/day06-danba.jpg','photo-1486870591958-9b9d0d1dda99'),IMG('images/day07-danba.jpg','photo-1518837695005-2083093ee35b'),IMG('images/day08-bamei.jpg','photo-1504198453319-5ce911bafcde'),IMG('images/day09-tagong.jpg','photo-1500530855693-0b41a1ad3b18'),IMG('images/day10-kangding.jpg','photo-1470071459604-3b5ec3a7fe05'),IMG('images/day11-return.jpg','photo-1441974231531-c6227db76b6e')];
+const PIMG=[IMG('images/hongyadong.jpg','photo-1444723121867-7a241cacace9'),IMG('images/ciqikou.jpg','photo-1502602898657-3e91760cbb09'),IMG('images/yangtze-cableway.jpg','photo-1548912233-2eb5dd28f6bd'),IMG('images/jiefangbei.jpg','photo-1559131397-47a91906b6f3'),IMG('images/liziba.jpg','photo-1559715541-f74f40ca0e80'),IMG('images/shibati.jpg','photo-1533661436227-1f920d1f202c'),IMG('images/panda-base.jpg','photo-1532003885402-990c817725fa'),IMG('images/kuanzhai-alley.jpg','photo-1506794778163-1a0a5340f450'),IMG('images/jinli.jpg','photo-1564002373593-30e78d7b4fba'),IMG('images/sanxingdui.jpg','photo-1518886173421-28b28d25e3d9'),IMG('images/renmin-park.jpg','photo-1444859341589-9bc4ef531570'),IMG('images/wuhouci.jpg','photo-1508804185872-d7bad8a2a4e7'),IMG('images/erlang-tunnel.jpg','photo-1536922241985-e3e3ac00b8e5'),IMG('images/jiaju-village.jpg','photo-1516026672322-bc52d61a55d5'),IMG('images/suopo-towers.jpg','photo-1624526267949-1dff4ab0ab37'),IMG('images/zhonglu-village.jpg','photo-1596513315467-9b6c9c14a58a'),IMG('images/tagong-grassland.jpg','photo-1506905925346-21bda4d32df4'),IMG('images/yala-snowmountain.jpg','photo-1501785888041-af3ef285b470'),IMG('images/muya-temple.jpg','photo-1488646953014-85cb44e25828'),IMG('images/tagong-temple.jpg','photo-1528411961782-14b34054aa71'),IMG('images/zheduo-pass.jpg','photo-1454496522488-7a8e488e8606'),IMG('images/kangding-oldtown.jpg','photo-1518509562904-e7ef9938ce32'),IMG('images/gongga-snowmountain.jpg','photo-1480714378408-67cf0d13bc1b'),IMG('images/hailuogou.jpg','photo-1519681393784-d120267933ba'),IMG('images/siguniang-mountain.jpg','photo-1455156218388-5e61b526818b'),IMG('images/xinduqiao.jpg','photo-1518173946687-53b5909a40e9')];
 
 const DAYS=[{n:0,w:'周三',date:'7月8日',title:'抵达重庆',desc:'晚间抵达山城重庆，入住酒店休息。推开窗，两江的灯火在夜色中闪烁，为明天的探索养精蓄锐。',hotel:'重庆酒店',alt:'300m',moves:['晚抵重庆','入住休息','两江夜景']},{n:1,w:'周四',date:'7月9日',title:'山城经典',desc:'探索重庆的魔幻地形——解放碑的繁华、洪崖洞的璀璨、千厮门大桥的壮阔。8D城市的每一个转角都有惊喜。',hotel:'重庆酒店',alt:'300m',moves:['解放碑','洪崖洞','山城步道']},{n:2,w:'周五',date:'7月10日',title:'重庆深度',desc:'上午三峡博物馆读懂长江文明，下午在十八梯的老街巷里穿行，傍晚乘长江索道飞渡天堑。',hotel:'重庆酒店',alt:'300m',moves:['三峡博物馆','十八梯','长江索道']},{n:3,w:'周六',date:'7月11日',title:'穿楼轻轨·转场成都',desc:'上午看李子坝轻轨穿楼而过，逛鹅岭二厂文创园。午后乘高铁前往成都，傍晚入住，在巷子里找一家地道火锅。',hotel:'成都酒店',alt:'300m→500m',moves:['李子坝轻轨','鹅岭二厂','高铁赴蓉']},{n:5,w:'周一',date:'7月13日',title:'蜀韵慢调',desc:'上午体验蜀锦织造的指尖艺术，下午在人民公园喝盖碗茶发呆，晚上看一场川剧变脸。成都的安逸，都融在这一天里。',hotel:'成都酒店',alt:'500m',moves:['蜀锦体验','人民公园','川剧变脸']},{n:4,w:'周日',date:'7月12日',title:'三星堆探秘',desc:'全天沉浸三星堆博物馆——青铜神树、纵目面具、黄金权杖。古蜀文明的神秘与震撼，让人忘记时间。',hotel:'成都酒店',alt:'500m',moves:['三星堆博物馆','青铜神树','古蜀文明']},{n:6,w:'周二',date:'7月14日',title:'向高原出发',desc:'包车出发，沿318国道向西。穿过二郎山隧道就像穿过任意门，扑面而来的是高原的烈风与蓝天。傍晚抵达丹巴，甲居藏寨在夕阳下静默如诗。',hotel:'丹巴酒店',alt:'500m→1,800m',moves:['318国道西行','二郎山隧道','甲居藏寨']},{n:7,w:'周三',date:'7月15日',title:'丹巴秘境',desc:'在丹巴放慢脚步——梭坡古碉群屹立千年，中路藏寨散落在山谷。在高山峡谷间穿行，感受嘉绒藏族的文化厚度。',hotel:'丹巴酒店',alt:'1,800m',moves:['梭坡古碉','中路藏寨','藏寨休整']},{n:8,w:'周四',date:'7月16日',title:'驶向八美',desc:'驱车前往八美，海拔3500m的高原草甸豁然开朗。塔公草原在脚下无尽铺展，雅拉雪山的雪顶在天际线静静伫立。这是旅途的高潮。',hotel:'八美酒店',alt:'1,800m→3,500m',moves:['高原草甸','雅拉雪山','高原日落']},{n:9,w:'周五',date:'7月17日',title:'塔公深度',desc:'深入塔公草原——木雅大寺金色殿顶在蓝天下闪耀，塔公寺红墙斑驳。在草原上躺下来看云，高原让时间变慢，让心变轻。',hotel:'八美酒店',alt:'3,500m',moves:['木雅大寺','塔公寺','草原放空']},{n:10,w:'周六',date:'7月18日',title:'康定情歌',desc:'翻越折多山垭口——康巴第一关，海拔4298米。回望来路，318国道如丝带缠绕群山。抵达康定，跑马溜溜的山上，情歌在山谷回荡。',hotel:'康定酒店',alt:'3,500m→2,600m',moves:['折多山垭口','康定古城','高原温泉']},{n:11,w:'周日',date:'7月19日',title:'归程',desc:'从康定返回成都，一路下坡回到平原。在成都最后的晚餐后飞回上海。12天的旅程结束了，身体回到平原，心还留在高原。',hotel:'回家',alt:'2,600m→500m',moves:['返回成都','飞回上海','慢慢回到自己']}];
 const RT=[{n:'重庆',a:'300m'},{n:'成都',a:'500m'},{n:'丹巴',a:'1,800m'},{n:'八美',a:'3,500m'},{n:'康定',a:'2,600m'},{n:'成都',a:'500m'}];
@@ -719,7 +720,7 @@ function renderSettings(){
       <div class="set-row tappable" id="exportData"><span class="srl">导出行程数据</span><span class="srv">JSON</span></div>
       <div class="set-row danger" id="resetData"><span class="srl">重置所有数据</span><span class="srv">清除</span></div>
     </div></div>
-    <div class="set-block"><div class="sb-label">关于</div><div class="set-card"><div class="set-row"><span class="srl">川西家庭旅行</span><span class="srv">2026年7月</span></div><div class="set-row"><span class="srl">版本</span><span class="srv">Beta 31</span></div></div></div>
+    <div class="set-block"><div class="sb-label">关于</div><div class="set-card"><div class="set-row"><span class="srl">川西家庭旅行</span><span class="srv">2026年7月</span></div><div class="set-row"><span class="srl">版本</span><span class="srv">Beta 32</span></div></div></div>
     <div class="end-quote">"慢慢进入高原<br><strong>慢慢回到自己</strong>"</div></div>`;
 }
 
@@ -890,7 +891,7 @@ function forcePWA(){
 
 function init(){
   // Service Worker — ensures updates on home screen apps
-  if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js?v=31').catch(()=>{});}
+  if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js?v=32').catch(()=>{});}
   // Pre-render all pages
   $('#page-home').innerHTML=renderHome();
   $('#page-trip').innerHTML=renderTrip();
