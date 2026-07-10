@@ -536,7 +536,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'SF Pro Display','P
     const r=await fetch(location.pathname+'?_nc='+Date.now());
     const h=await r.text();
     document.open();
-    document.write(h.replace('<script>','<scr'+'ipt>'));
+    document.write(h);
     document.close();
   }catch(e){}
 })();
