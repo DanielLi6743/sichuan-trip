@@ -11,7 +11,7 @@
 <meta http-equiv="Expires" content="0">
 <title>川西 · 慢慢回到自己</title>
 <link rel="icon" href="images/icon-180.png">
-<link rel="apple-touch-icon" sizes="180x180" href="images/icon-180.png">>
+<link rel="apple-touch-icon" sizes="180x180" href="images/icon-180.png">
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 /* ═══════════════════════════════════════════
@@ -500,7 +500,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'SF Pro Display','P
   <button class="tab-item" data-tab="trip"><span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>行程</button>
   <button class="tab-item" data-tab="check"><span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="12 6 14.5 10.5 19.5 11.5 16 15 16.5 20 12 18 7.5 20 8 15 4.5 11.5 9.5 10.5"/></svg></span>发现</button>
   <button class="tab-item" data-tab="settings"><span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>设置</button>
-  <div class="sidebar-footer">Beta 26</div>
+  <div class="sidebar-footer">Beta 27</div>
 </nav>
 
 <main id="mainContent">
@@ -527,6 +527,15 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'SF Pro Display','P
 <div id="sheetOverlay"><div class="sheet-wrap"><div class="sheet" id="sheetContent"><div class="sheet-handle"></div></div></div></div>
 
 <script>
+// ═══ NUCLEAR CACHE BUSTER — force fresh load every open ═══
+(function(){
+  if(!location.search.includes('_ts=')){
+    location.replace(location.pathname+'?_ts='+Date.now());
+  }else{
+    history.replaceState(null,'',location.pathname);
+  }
+})();
+
 /* ═══════════════════════════════════════════
    DATA
    ═══════════════════════════════════════════ */
@@ -539,8 +548,6 @@ const RT=[{n:'重庆',a:'300m'},{n:'成都',a:'500m'},{n:'丹巴',a:'1,800m'},{n
 const PR=[{n:1,t:'慢',d:'宁愿少去一个地方，也不要多赶一次路。每天开车不超过4小时。'},{n:2,t:'早',d:'高原的清晨最美。每天7点前出发，中午最热时休息。'},{n:3,t:'水',d:'高原补水是关键。每人每天至少1.5L，车上常备保温杯。'},{n:4,t:'松',d:'不设定严格时间表。遇到喜欢的地方就停下来，让旅途自由呼吸。'},{n:5,t:'家',d:'这是一次家庭旅行，不是打卡。尊重每个人的节奏，享受在一起的时光。'}];
 const PLACES=[{title:'洪崖洞夜景',loc:'重庆 · 渝中区',desc:'依山而建的吊脚楼群，入夜后灯火璀璨，仿佛千与千寻里的汤屋。站在千厮门大桥上望去，两江交汇的夜风吹过面颊，对岸霓虹如水般流动。红灯笼一串串挂满层层叠叠的屋檐，江面倒映着金色光影，恍如隔世。',tag:'经典',h:240},{title:'磁器口古镇',loc:'重庆 · 沙坪坝',desc:'千年古镇，石板路两旁是明清风格的老建筑。陈麻花的香味飘满整条街，毛血旺在锅里咕嘟咕嘟冒着热气，每一步都踩在旧时光里。沿着石阶爬上爬下，转角总能遇见意想不到的小店——卖手工糍粑的阿姨、做糖画的老爷爷。',tag:'古镇',h:180},{title:'长江索道',loc:'重庆 · 渝中',desc:'在山城有一种通勤叫飞过去。长江索道横跨1166米，日落时分乘上去，整座城市在金色光线里缓缓展开，江水在脚下奔流不息。车厢晃晃悠悠地滑过江面，对岸的高楼渐渐清晰，像在胶片电影里穿行。',tag:'体验',h:200},{title:'解放碑',loc:'重庆 · 渝中区',desc:'重庆的精神地标。环绕的摩天大楼与这座历史丰碑形成奇妙对照，八一路好吃街上酸辣粉的香气是这座城市最诚实的欢迎词。入夜后整片商圈灯火通明，奢侈品橱窗和街头小吃摊和谐共处，这就是重庆的包容。',tag:'地标',h:210},{title:'李子坝轻轨穿楼',loc:'重庆 · 渝中',desc:'轻轨从19层高的居民楼中间穿过——不是特效，是重庆人的日常。站在观景台上仰望，列车像一只穿山甲钻进水泥森林。这一站的设计曾经被全世界媒体报道，但对住在这栋楼里的居民来说，不过是每天回家的方式。',tag:'奇观',h:220},{title:'十八梯老街',loc:'重庆 · 渝中',desc:'从上半城到下半城的垂直通道，层层叠叠的石阶记录着老重庆的烟火人间。改造后的老街在保留记忆的同时长出了新的生命力——咖啡馆开在老茶馆隔壁，独立书店的橱窗对着卖手工辣椒面的摊位，新旧在此温柔交融。',tag:'老街',h:195},{title:'大熊猫繁育基地',loc:'成都 · 成华区',desc:'早上九点熊猫们正在享用早餐。幼年熊猫在树上打闹，圆滚滚的身子挂在枝头晃悠。这是成都最治愈的早晨，没有之一。看着它们慢悠悠地啃竹子、在草地上打滚，你会忘记所有烦恼——国宝的日常就是最好的心灵按摩。',tag:'经典',h:250},{title:'宽窄巷子',loc:'成都 · 青羊区',desc:'青砖灰瓦的四合院里藏着咖啡馆和手作坊。找一棵银杏树下的位置点一杯盖碗茶——成都的安逸都在这一盏茶里，时光可以慢到停滞。宽巷子热闹、窄巷子安静、井巷子文艺，三条巷子各有各的节奏，逛完正好一个下午。',tag:'慢生活',h:210},{title:'锦里古街',loc:'成都 · 武侯区',desc:'三国故里的灯火从不熄灭。红灯笼把整条街染成暖橙色，糖画、变脸、皮影戏——蜀地的热闹和诗意都揉在了一起，越夜越迷人。明清风格的木楼在灯光下格外温暖，戏台上的川剧高腔穿透夜空，游客和本地人挤在一起叫好。',tag:'夜游',h:190},{title:'三星堆博物馆',loc:'广汉 · 三星堆',desc:'青铜神树三米高、纵目面具半米宽——古蜀人用青铜铸造了一个外星文明般的奇幻世界。站在这些文物面前，三千年的距离被压缩成一声惊叹。没有人知道他们从哪里来，又去了哪里，只留下这些沉默的青铜在诉说一个失落文明的辉煌。',tag:'文明',h:230},{title:'人民公园',loc:'成都 · 青羊区',desc:'成都慢生活的原点。鹤鸣茶社里竹椅吱呀，盖碗茶热气氤氲，隔壁的相亲角热闹非凡。在这里坐一下午，你会明白什么叫来了就不想走。掏耳朵的师傅敲着金属夹子从身边走过，那清脆的叮当声是成都特有的背景音乐。',tag:'慢生活',h:200},{title:'武侯祠',loc:'成都 · 武侯区',desc:'三国迷的精神圣地。丞相祠堂何处寻，锦官城外柏森森。红墙夹道、古柏参天，出师表的文字在石碑上静静诉说着鞠躬尽瘁的故事。走在惠陵的神道上，两侧的石兽已经守望了千年，风吹过竹林的声音像是在背诵前后出师表。',tag:'三国',h:205},{title:'二郎山隧道',loc:'318国道 · 川藏线',desc:'穿过4176米长的隧道就像穿过一道任意门。进洞前还是四川盆地的湿润雾气，出洞后扑面而来的是高原的烈风与蓝天——欢迎来到川西。两侧的风景在一瞬间切换，从青山绿水到苍茫高原，大自然用一条隧道画了一条分界线。',tag:'自驾',h:195},{title:'甲居藏寨',loc:'丹巴 · 甘孜州',desc:'中国最美乡村不是说说而已。百余座藏式碉楼散落在山坡上，黄昏时分夕阳把整片山谷染成金红色，炊烟从每座碉楼顶升起——这是嘉绒藏族人写给大地的诗。春天梨花白如雪，秋天层林尽染，美得像一幅油画。',tag:'最美乡村',h:260},{title:'梭坡古碉群',loc:'丹巴 · 甘孜州',desc:'千年前的摩天大楼。高达30米的石砌古碉没有一根钢筋，全靠石块之间的咬合力屹立千年。站在碉楼下仰望，风穿过石缝的声音像来自唐朝的耳语。这些古碉是嘉绒藏族先民用来御敌和储存粮食的，每一座都藏着一个家族的兴衰故事。',tag:'历史',h:215},{title:'中路藏寨',loc:'丹巴 · 甘孜州',desc:'比甲居更隐秘的藏寨秘境。春天梨花如雪覆盖山谷，秋天层林尽染。这里的碉楼与经幡在晨雾中若隐若现，美得像一幅还没干透的水墨画。几乎没有游客，只有当地的藏族老人在村口晒太阳、转经筒，时光在这里是静止的。',tag:'藏寨',h:245},{title:'塔公草原',loc:'八美 · 甘孜州',desc:'海拔3500米的高原草甸，天地之间只有风声、牦牛和自己。雅拉雪山的雪顶在天际线静静伫立，经幡在风中猎猎作响，把祝福送往远方。躺在草地上看云卷云舒，高原的阳光温暖而不刺眼，时间在这一刻失去了意义。',tag:'草原',h:250},{title:'雅拉雪山',loc:'八美 · 甘孜州',desc:'蜀山之王的姐妹峰。日出时分第一缕阳光把雪峰染成玫红色，倒映在塔公草原的海子里。那一刻你会相信，山是有灵魂的。藏族人说雅拉是莲花生的化身，每年都有信徒从远方赶来转山祈福，绕着雪山一步一叩首。',tag:'雪山',h:220},{title:'木雅大寺',loc:'八美 · 甘孜州',desc:'高原上的信仰之地。金色的殿顶在蓝天白云下格外耀眼，绛红色的僧袍在白色佛塔间穿行。推开厚重的木门，酥油灯的微光里藏着千年的虔诚。寺院的辩经场上年轻僧人们的击掌声此起彼伏，那是在用身体和声音辩论佛法的真谛。',tag:'寺庙',h:200},{title:'塔公寺',loc:'八美 · 甘孜州',desc:'塔公草原上的千年古刹，红墙金顶在高原阳光下熠熠生辉。寺内供奉的释迦牟尼十二岁等身像，让这里成为川西藏族心中的圣地。清晨的诵经声从大殿里飘出，和草原上的风混在一起，即使听不懂经文也会被那种庄严肃穆感染。',tag:'寺庙',h:185},{title:'折多山垭口',loc:'康定 · 甘孜州',desc:'康巴第一关，海拔4298米。站在垭口回望来路，318国道像一条细细的丝带缠绕在群山中。经幡在狂风中翻飞，每飘动一次就是念了一遍经文。空气稀薄但清冽，每一次深呼吸都提醒你——你正站在离天空最近的地方。',tag:'自驾',h:230},{title:'康定古城',loc:'康定 · 甘孜州',desc:'跑马溜溜的山上，一朵溜溜的云。情歌的旋律渗进了古城的每一条石板路。折多河穿城而过，两岸的藏式木楼倒映在水中，是高原上最温柔的夜景。傍晚沿着河边散步，藏餐馆里飘出酥油茶的香气，街头艺人拉着弦子唱着古老的情歌。',tag:'古城',h:210},{title:'贡嘎雪山',loc:'甘孜州 · 蜀山之王',desc:'海拔7556米，四川最高峰。日出时分的日照金山是川西最壮丽的自然奇观——金色的阳光从峰顶缓缓向下流淌，整座雪山像被点燃了一样。这座山是登山者的终极梦想，登顶成功率不到30%，但对大多数人来说，远远看一眼已经足够铭记一生。',tag:'雪山',h:240},{title:'海螺沟冰川',loc:'泸定 · 甘孜州',desc:'低海拔现代冰川的奇迹。巨大的冰舌从贡嘎山脚一直伸入原始森林，冰与绿共存的奇观让人恍惚——这是在同一个星球上吗？乘坐缆车缓缓接近冰川，脚下是从亚热带到寒带的完整植被带谱，一小时之内穿越了四个季节。',tag:'自然',h:240},{title:'四姑娘山',loc:'阿坝 · 小金',desc:'四位冰雪女王并肩而立。双桥沟、长坪沟、海子沟——每一条沟都是一条通往仙境的走廊。秋天的彩林倒映在海子里，比油画还要不真实。幺妹峰海拔6250米是四姐妹中最美的，也是技术攀登的圣地，被称为东方的阿尔卑斯。',tag:'雪山',h:235},{title:'新都桥',loc:'康定 · 甘孜州',desc:'摄影家的天堂，不是景点却胜过景点。秋天杨树金黄、藏寨散落、光影交错，随便举起相机按下快门，就是一张明信片。这里是318国道上最美的10公里，清晨的薄雾缠绕在山腰，傍晚的炊烟从碉楼上升起，每一帧都是大片。',tag:'摄影天堂',h:225}];
 
-const APP_VERSION=26;
-
 /* ═══════════════════════════════════════════
    UTILS
    ═══════════════════════════════════════════ */
@@ -550,14 +557,6 @@ function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(t._tid);t._tid=setTimeout(()=>t.classList.remove('show'),1800)}
 function stagger(c){c.querySelectorAll('.fade-up:not(.in)').forEach((el,i)=>{setTimeout(()=>{el.style.transitionDelay='0s';el.classList.add('in')},i*28)})}
 function isDesktop(){return window.matchMedia('(min-width:768px)').matches}
-async function checkUpdate(){
-  try{
-    const res=await fetch(location.pathname+'?_ck='+Date.now(),{cache:'no-store'});
-    const html=await res.text();
-    const m=html.match(/APP_VERSION\s*=\s*(\d+)/);
-    if(m&&parseInt(m[1])>APP_VERSION)location.reload();
-  }catch(e){}
-}
 
 function getTodayIndex(){const now=new Date();const j8=new Date(2026,6,8);const diff=Math.floor((now-j8)/(1000*60*60*24));return Math.max(0,Math.min(11,diff))}
 function getGreeting(){const h=new Date().getHours();if(h>=5&&h<12)return '早上好';if(h>=12&&h<14)return '中午好';if(h>=14&&h<18)return '下午好';return '晚上好'}
@@ -719,7 +718,7 @@ function renderSettings(){
       <div class="set-row tappable" id="exportData"><span class="srl">导出行程数据</span><span class="srv">JSON</span></div>
       <div class="set-row danger" id="resetData"><span class="srl">重置所有数据</span><span class="srv">清除</span></div>
     </div></div>
-    <div class="set-block"><div class="sb-label">关于</div><div class="set-card"><div class="set-row"><span class="srl">川西家庭旅行</span><span class="srv">2026年7月</span></div><div class="set-row"><span class="srl">版本</span><span class="srv">Beta 26</span></div></div></div>
+    <div class="set-block"><div class="sb-label">关于</div><div class="set-card"><div class="set-row"><span class="srl">川西家庭旅行</span><span class="srv">2026年7月</span></div><div class="set-row"><span class="srl">版本</span><span class="srv">Beta 27</span></div></div></div>
     <div class="end-quote">"慢慢进入高原<br><strong>慢慢回到自己</strong>"</div></div>`;
 }
 
@@ -890,7 +889,7 @@ function forcePWA(){
 
 function init(){
   // Service Worker — ensures updates on home screen apps
-  if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js?v=26').catch(()=>{});}checkUpdate();
+  if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js?v=27').catch(()=>{});}
   // Pre-render all pages
   $('#page-home').innerHTML=renderHome();
   $('#page-trip').innerHTML=renderTrip();
