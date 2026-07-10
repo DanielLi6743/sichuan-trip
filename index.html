@@ -38,7 +38,7 @@
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{width:100%;height:100%;overflow:hidden;font-family:'SF Pro Display','PingFang SC',-apple-system,sans-serif;background:var(--bg) var(--bg-img,url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80)) center/cover no-repeat;color:var(--t1);-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;font-size:15px;line-height:1.5}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'SF Pro Display','PingFang SC',-apple-system,sans-serif;background:var(--bg) var(--bg-img) center/cover no-repeat;color:var(--t1);-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;font-size:15px;line-height:1.5}
 #mainContent{background:transparent}
 .page{background:transparent}
 ::-webkit-scrollbar{width:4px}
@@ -496,7 +496,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'SF Pro Display','P
   <button class="tab-item" data-tab="trip"><span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>行程</button>
   <button class="tab-item" data-tab="check"><span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="12 6 14.5 10.5 19.5 11.5 16 15 16.5 20 12 18 7.5 20 8 15 4.5 11.5 9.5 10.5"/></svg></span>发现</button>
   <button class="tab-item" data-tab="settings"><span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>设置</button>
-  <div class="sidebar-footer">Beta 37</div>
+  <div class="sidebar-footer">Beta 38</div>
 </nav>
 
 <main id="mainContent">
@@ -681,7 +681,7 @@ function renderSettings(){
       <div class="set-row tappable" id="exportData"><span class="srl">导出行程数据</span><span class="srv">JSON</span></div>
       <div class="set-row danger" id="resetData"><span class="srl">重置所有数据</span><span class="srv">清除</span></div>
     </div></div>
-    <div class="set-block"><div class="sb-label">关于</div><div class="set-card"><div class="set-row"><span class="srl">川西家庭旅行</span><span class="srv">2026年7月</span></div><div class="set-row"><span class="srl">版本</span><span class="srv">Beta 37</span></div></div></div>
+    <div class="set-block"><div class="sb-label">关于</div><div class="set-card"><div class="set-row"><span class="srl">川西家庭旅行</span><span class="srv">2026年7月</span></div><div class="set-row"><span class="srl">版本</span><span class="srv">Beta 38</span></div></div></div>
     <div class="end-quote">"慢慢进入高原<br><strong>慢慢回到自己</strong>"</div></div>`;
 }
 
@@ -843,7 +843,7 @@ function forcePWA(){
 
 function init(){
   // Service Worker — ensures updates on home screen apps
-  if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js?v=37').catch(()=>{});}
+  if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js?v=38').catch(()=>{});}
   // Pre-render all pages
   $('#page-home').innerHTML=renderHome();
   $('#page-trip').innerHTML=renderTrip();
