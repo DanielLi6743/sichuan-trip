@@ -194,6 +194,11 @@ body.ken-burns::before{content:'';position:fixed;inset:-20px;z-index:-1;backgrou
 /* Overlay backdrop pulse */
 #sheetOverlay{animation:soIn .35s ease both}
 @keyframes sheetUp{from{transform:translateY(40px);opacity:.6}to{transform:translateY(0);opacity:1}}
+@keyframes soOut{from{opacity:1}to{opacity:0}}
+#sheetOverlay .sheet-wrap{animation:sheetDown .3s var(--ease) both}
+#sheetOverlay.closing .sheet-wrap{animation:sheetDownRev .25s var(--ease) both}
+@keyframes sheetDown{from{transform:translateY(30px);opacity:.7}to{transform:translateY(0);opacity:1}}
+@keyframes sheetDownRev{from{transform:translateY(0);opacity:1}to{transform:translateY(30px);opacity:.7}}
 
 /* ═══════════════════════════════════════════
    HOME HERO (no image — BG is page background)
@@ -346,7 +351,10 @@ body.ken-burns::before{content:'';position:fixed;inset:-20px;z-index:-1;backgrou
 .cal-day.expanded .cd-detail .cdd-moves{font-size:10px;color:var(--t2);display:flex;gap:4px;flex-wrap:wrap}
 .cal-day.expanded .cd-detail .cdd-moves span{background:var(--border);padding:2px 7px;border-radius:var(--r-full);font-size:9px}
 .cal-day.expanded .cd-detail .cdd-meta{font-size:10px;color:var(--t3)}
-.cal-day.expanded .cd-collapse{font-size:9px;color:var(--warm);cursor:pointer;white-space:nowrap;padding:4px 10px;border-radius:var(--r-full);border:1px solid var(--warm);background:transparent;margin-top:2px;font-weight:600;align-self:flex-start;transition:background .2s}
+/* Collapse animation */
+.cal-day .cd-photo,.cal-day .cd-detail{transition:opacity .25s var(--ease),max-height .35s var(--ease);max-height:0;overflow:hidden}
+.cal-day.expanded .cd-photo,.cal-day.expanded .cd-detail{max-height:200px}
+.cal-day.expanded:not(.collapsing) .cd-photo,.cal-day.expanded:not(.collapsing) .cd-detail{max-height:200px;opacity:1}.cal-day.collapsing .cd-photo,.cal-day.collapsing .cd-detail{max-height:0!important;opacity:0}.cal-day.expanded .cd-collapse{font-size:9px;color:var(--warm);cursor:pointer;white-space:nowrap;padding:4px 10px;border-radius:var(--r-full);border:1px solid var(--warm);background:transparent;margin-top:2px;font-weight:600;align-self:flex-start;transition:background .2s}
 .cal-day.expanded .cd-collapse:hover{background:var(--warm-light)}
 
 @media(min-width:640px){
@@ -388,18 +396,18 @@ body.ken-burns::before{content:'';position:fixed;inset:-20px;z-index:-1;backgrou
   .disc-head{margin:28px 32px 18px}
 }
 
-.masonry{columns:2;column-gap:8px;padding:0 12px 24px;column-fill:auto}
-@media(min-width:640px){.masonry{columns:3;column-gap:10px;padding:0 16px 28px;column-fill:auto}}
-@media(min-width:768px){.masonry{columns:3;column-gap:12px;padding:0 24px 32px;column-fill:auto}}
-@media(min-width:1024px){.masonry{columns:4;column-gap:14px;column-fill:auto}}
-@media(min-width:1400px){.masonry{columns:5;column-gap:16px;padding:0 32px 36px;column-fill:auto}}
+.masonry{columns:2;column-gap:8px;padding:0 12px 24px;column-fill:balance}
+@media(min-width:640px){.masonry{columns:3;column-gap:10px;padding:0 16px 28px;column-fill:balance}}
+@media(min-width:768px){.masonry{columns:3;column-gap:12px;padding:0 24px 32px;column-fill:balance}}
+@media(min-width:1024px){.masonry{columns:4;column-gap:14px;column-fill:balance}}
+@media(min-width:1400px){.masonry{columns:5;column-gap:16px;padding:0 32px 36px;column-fill:balance}}
 
 .masonry-item{break-inside:avoid;margin-bottom:8px;border-radius:var(--r-md);overflow:hidden;background:var(--surface);border:1px solid var(--border);cursor:pointer;box-shadow:var(--shadow-sm);transition:transform .2s var(--ease),box-shadow .2s var(--ease);contain:layout}
 .masonry-item:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
 .masonry-item:active{transform:scale(.97)}
-.masonry-item img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;transition:transform .4s var(--ease)}
+.masonry-item img{width:100%;height:var(--h,180px);object-fit:cover;display:block;transition:transform .4s var(--ease)}
 .masonry-item:hover img{transform:scale(1.04)}
-.masonry-item .mi-info{padding:11px 12px 12px}
+.masonry-item:nth-child(odd){margin-top:6px}.masonry-item:nth-child(3n){margin-top:-4px}.masonry-item:nth-child(5n+2){margin-top:10px}.masonry-item .mi-info{padding:11px 12px 12px}
 .masonry-item .mi-title{font-size:12px;font-weight:600;line-height:1.4;margin-bottom:4px;color:var(--t1)}
 .masonry-item .mi-desc{font-size:10px;color:var(--t2);line-height:1.55;margin-bottom:5px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .masonry-item .mi-tag{font-size:9px;font-weight:550;padding:3px 8px;border-radius:var(--r-full);background:var(--cool-light);color:var(--cool);display:inline-block}
@@ -555,7 +563,7 @@ body.ken-burns::before{content:'';position:fixed;inset:-20px;z-index:-1;backgrou
   <button class="tab-item" data-tab="trip"><span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>行程</button>
   <button class="tab-item" data-tab="check"><span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="12 6 14.5 10.5 19.5 11.5 16 15 16.5 20 12 18 7.5 20 8 15 4.5 11.5 9.5 10.5"/></svg></span>发现</button>
   <button class="tab-item" data-tab="settings"><span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>设置</button>
-  <div class="sidebar-footer">Beta 49</div>
+  <div class="sidebar-footer">Beta 50</div>
 </nav>
 
 <main id="mainContent">
@@ -751,7 +759,7 @@ function makeMountainSVG(){
 function renderDiscover(){
   const shuffled=[...PLACES].sort(()=>Math.random()-0.5);
   let h='';
-  shuffled.forEach(p=>{const realIdx=PLACES.indexOf(p);h+=`<div class="masonry-item fade-up" data-pi="${realIdx}">${PIMG[realIdx].toHTML(p.title,'')}<div class="mi-info"><div class="mi-title">${esc(p.title)}</div><div class="mi-desc">${esc(p.desc)}</div><span class="mi-tag">${esc(p.tag)}</span></div></div>`});
+  shuffled.forEach(p=>{const realIdx=PLACES.indexOf(p);h+=`<div class="masonry-item fade-up" style="--h:${p.h||200}px" data-pi="${realIdx}">${PIMG[realIdx].toHTML(p.title,'')}<div class="mi-info"><div class="mi-title">${esc(p.title)}</div><div class="mi-desc">${esc(p.desc)}</div><span class="mi-tag">${esc(p.tag)}</span></div></div>`});
   return`<div class="disc-head"><h2>好去处</h2><p>${PLACES.length} 个心动时刻 · 随机排列</p></div><div class="masonry">${h}</div>`;
 }
 
@@ -765,7 +773,7 @@ function renderSettings(){
       <div class="set-row tappable" id="exportData"><span class="srl">导出行程数据</span><span class="srv">JSON</span></div>
       <div class="set-row danger" id="resetData"><span class="srl">重置所有数据</span><span class="srv">清除</span></div>
     </div></div>
-    <div class="set-block"><div class="sb-label">关于</div><div class="set-card"><div class="set-row"><span class="srl">川西家庭旅行</span><span class="srv">2026年7月</span></div><div class="set-row"><span class="srl">版本</span><span class="srv">Beta 49</span></div></div></div>
+    <div class="set-block"><div class="sb-label">关于</div><div class="set-card"><div class="set-row"><span class="srl">川西家庭旅行</span><span class="srv">2026年7月</span></div><div class="set-row"><span class="srl">版本</span><span class="srv">Beta 50</span></div></div></div>
     <div class="end-quote">"慢慢进入高原<br><strong>慢慢回到自己</strong>"</div></div>`;
 }
 
@@ -866,7 +874,7 @@ function openDaySheet(dayIndex){
   h+=`<div class="sheet-body"><span class="sh-chip">第 ${d.n} 天</span> <span style="font-size:11px;color:var(--t3);margin-left:6px">${d.w} · ${d.date}</span><h3>${esc(d.title)}</h3><div class="sh-desc">${esc(d.desc)}</div><div class="sh-tags">${d.moves.map(m=>`<span>${esc(m)}</span>`).join('')}</div><div class="sh-meta"><span>🏠 ${esc(d.hotel)}</span><span>⛰ ${esc(d.alt)}</span></div></div>`;
   sc.innerHTML=h;
   const cb=document.getElementById('sheetClose');if(cb)cb.addEventListener('click',closeSheet);
-  $('#sheetOverlay').style.display='block';
+  $('#sheetOverlay').style.display='block';$('#sheetOverlay').style.animation='';
 }
 
 function openPostDetail(idx){
@@ -877,10 +885,14 @@ function openPostDetail(idx){
   h+=`<div class="sheet-body"><span class="sh-chip">${esc(p.tag)}</span> <span style="font-size:11px;color:var(--t3);margin-left:6px">${esc(p.loc)}</span><h3>${esc(p.title)}</h3><div class="sh-desc">${esc(p.desc)}</div></div>`;
   sc.innerHTML=h;
   const cb=document.getElementById('sheetClose');if(cb)cb.addEventListener('click',closeSheet);
-  $('#sheetOverlay').style.display='block';
+  $('#sheetOverlay').style.display='block';$('#sheetOverlay').style.animation='';
 }
 
-function closeSheet(){$('#sheetOverlay').style.display='none'}
+function closeSheet(){
+  const ov=$('#sheetOverlay');
+  ov.style.animation='soOut .28s ease both';
+  ov.addEventListener('animationend',()=>{ov.style.display='none';ov.style.animation=''},{once:true});
+}
 
 /* ═══════════════════════════════════════════
    CALENDAR INLINE EXPAND
@@ -899,7 +911,14 @@ function expandCalDay(dayIndex){
 function collapseCalDay(){
   if(expandedDay===null)return;
   const el=document.querySelector(`.cal-day[data-day="${expandedDay}"]`);
-  if(el){el.classList.remove('expanded','active')}
+  if(el){
+    el.classList.add('collapsing');
+    el.classList.remove('active');
+    el.addEventListener('transitionend',()=>{el.classList.remove('expanded','collapsing')},{once:true});
+    // Force reflow to trigger transition
+    el.offsetHeight;
+    el.classList.remove('expanded');
+  }
   expandedDay=null;
 }
 
@@ -970,7 +989,7 @@ function forcePWA(){
 
 function init(){
   // Service Worker — ensures updates on home screen apps
-  if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js?v=49').catch(()=>{});}
+  if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js?v=50').catch(()=>{});}
   // Pre-render all pages
   $('#page-home').innerHTML=renderHome();setupOrbit();requestAnimationFrame(()=>{requestAnimationFrame(animateStats)});
   $('#page-trip').innerHTML=renderTrip();
