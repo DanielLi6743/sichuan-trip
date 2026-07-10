@@ -213,7 +213,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'SF Pro Display','P
 .orbit-stone{position:absolute;width:58px;height:58px;margin:-29px 0 0 -29px;border-radius:46% 54% 50% 50%;display:flex;align-items:center;justify-content:center;font-family:'Noto Serif SC','Songti SC',serif;font-size:24px;font-weight:700;cursor:pointer;background:var(--surface);border:2px solid var(--border);box-shadow:var(--shadow-sm);animation:orbitCounterSpin 35s linear infinite;transition:all .3s var(--ease);-webkit-tap-highlight-color:transparent;z-index:3;user-select:none}
 .orbit-stone.paused{animation-play-state:paused}
 .orbit-stone:hover{box-shadow:var(--shadow-md);transform:scale(1.08)}
-.orbit-stone:active{transform:scale(.9)}
+.orbit-stone:active{transform:scale(.95)}
 .orbit-stone.active{background:var(--warm)!important;color:#fff!important;border-color:var(--warm)!important;box-shadow:0 0 0 10px var(--warm-light)!important}
 @keyframes orbitCounterSpin{to{rotate:-360deg}}
 .orbit-stone:nth-child(1){border-radius:50% 50% 46% 54%}
@@ -496,7 +496,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'SF Pro Display','P
   <button class="tab-item" data-tab="trip"><span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>行程</button>
   <button class="tab-item" data-tab="check"><span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="12 6 14.5 10.5 19.5 11.5 16 15 16.5 20 12 18 7.5 20 8 15 4.5 11.5 9.5 10.5"/></svg></span>发现</button>
   <button class="tab-item" data-tab="settings"><span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>设置</button>
-  <div class="sidebar-footer">Beta 36</div>
+  <div class="sidebar-footer">Beta 37</div>
 </nav>
 
 <main id="mainContent">
@@ -535,7 +535,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'SF Pro Display','P
 /* ═══════════════════════════════════════════
    DATA
    ═══════════════════════════════════════════ */
-const IMG=(localPath,fallbackId)=>({src:fallbackId.startsWith('http')?fallbackId:`https://images.unsplash.com/${fallbackId}?w=1200&q=85`,toHTML(alt,cls){return`<img class="${cls||''}" src="${this.src}" alt="${alt||''}" loading="lazy">`}});
+const IMG=(localPath,fallbackId)=>({src:localPath,fallback:fallbackId.startsWith('http')?fallbackId:`https://images.unsplash.com/${fallbackId}?w=1200&q=85`,toHTML(alt,cls){return`<img class="${cls||''}" src="${this.src}" alt="${alt||''}" loading="lazy" onerror="this.src='${this.fallback}'">`}});
 const DIMG=[IMG('images/day00-chongqing.jpg','photo-1514924013411-cbf25faa35bb'),IMG('images/day01-chongqing.jpg','photo-1494522855154-9297ac14b55f'),IMG('images/day02-chongqing.jpg','photo-1477959858617-67f85cf85f82'),IMG('images/day03-transfer.jpg','photo-1449824913935-59a10b8d2000'),IMG('images/day05-chengdu.jpg','photo-1547981609-4b6bfe67ca0b'),IMG('images/day04-sanxingdui.jpg','photo-1464366400600-7168b8af9bc3'),IMG('images/day06-danba.jpg','photo-1486870591958-9b9d0d1dda99'),IMG('images/day07-danba.jpg','photo-1518837695005-2083093ee35b'),IMG('images/day08-bamei.jpg','photo-1504198453319-5ce911bafcde'),IMG('images/day09-tagong.jpg','photo-1500530855693-0b41a1ad3b18'),IMG('images/day10-kangding.jpg','photo-1470071459604-3b5ec3a7fe05'),IMG('images/day11-return.jpg','photo-1441974231531-c6227db76b6e')];
 const PIMG=[IMG('images/hongyadong.jpg','photo-1444723121867-7a241cacace9'),IMG('images/ciqikou.jpg','photo-1502602898657-3e91760cbb09'),IMG('images/yangtze-cableway.jpg','photo-1548912233-2eb5dd28f6bd'),IMG('images/jiefangbei.jpg','photo-1559131397-47a91906b6f3'),IMG('images/liziba.jpg','photo-1559715541-f74f40ca0e80'),IMG('images/shibati.jpg','photo-1533661436227-1f920d1f202c'),IMG('images/panda-base.jpg','photo-1532003885402-990c817725fa'),IMG('images/kuanzhai-alley.jpg','photo-1506794778163-1a0a5340f450'),IMG('images/jinli.jpg','photo-1564002373593-30e78d7b4fba'),IMG('images/sanxingdui.jpg','photo-1518886173421-28b28d25e3d9'),IMG('images/renmin-park.jpg','photo-1444859341589-9bc4ef531570'),IMG('images/wuhouci.jpg','photo-1508804185872-d7bad8a2a4e7'),IMG('images/erlang-tunnel.jpg','photo-1536922241985-e3e3ac00b8e5'),IMG('images/jiaju-village.jpg','photo-1516026672322-bc52d61a55d5'),IMG('images/suopo-towers.jpg','photo-1624526267949-1dff4ab0ab37'),IMG('images/zhonglu-village.jpg','photo-1596513315467-9b6c9c14a58a'),IMG('images/tagong-grassland.jpg','photo-1506905925346-21bda4d32df4'),IMG('images/yala-snowmountain.jpg','photo-1501785888041-af3ef285b470'),IMG('images/muya-temple.jpg','photo-1488646953014-85cb44e25828'),IMG('images/tagong-temple.jpg','photo-1528411961782-14b34054aa71'),IMG('images/zheduo-pass.jpg','photo-1454496522488-7a8e488e8606'),IMG('images/kangding-oldtown.jpg','photo-1518509562904-e7ef9938ce32'),IMG('images/gongga-snowmountain.jpg','photo-1480714378408-67cf0d13bc1b'),IMG('images/hailuogou.jpg','photo-1519681393784-d120267933ba'),IMG('images/siguniang-mountain.jpg','photo-1455156218388-5e61b526818b'),IMG('images/xinduqiao.jpg','photo-1518173946687-53b5909a40e9')];
 
@@ -561,82 +561,46 @@ function getGreeting(){const h=new Date().getHours();if(h>=5&&h<12)return '早�
    MOUNTAIN SVG — real ridge line, no snow caps
    ═══════════════════════════════════════════ */
 function makeMountainSVG(){
-  const W=600,H=220,PAD=24,baseY=H-32;
+  const W=600,H=210,PAD=30,baseY=H-36;
   const pts=RT.map(r=>parseInt(r.a.replace(/,/g,'')));
   const maxA=3800;
   const xs=RT.map((_,i)=>PAD+(i/(RT.length-1))*(W-PAD*2));
-  const ys=pts.map(v=>baseY-(v/maxA)*(baseY-20));
+  const ys=pts.map(v=>baseY-(v/maxA)*(baseY-18));
 
-  // Build smooth ridge with peaks at each station
+  // Smooth bezier ridge
   let areaD=`M${xs[0]},${baseY}`;
   let lineD=`M${xs[0]},${ys[0]}`;
-  for(let i=0;i<xs.length;i++){
-    if(i>0){
-      const cx1=xs[i-1]+(xs[i]-xs[i-1])*.65;
-      const cx2=xs[i-1]+(xs[i]-xs[i-1])*.35;
-      areaD+=` C${cx1},${ys[i-1]+(ys[i]-ys[i-1])*.3} ${cx2},${ys[i]-(ys[i]-ys[i-1])*.3} ${xs[i]},${ys[i]}`;
-      lineD=`M${xs[0]},${ys[0]}`;
-    }
-    // Jagged ridge between points
-    if(i<xs.length-1){
-      const steps=6;
-      for(let s=1;s<=steps;s++){
-        const t=s/steps;
-        const bx=xs[i]+(xs[i+1]-xs[i])*t;
-        const by=ys[i]+(ys[i+1]-ys[i])*t;
-        const jitter=(Math.sin(bx*.17+i*5.3)*43758.5453%1-.35)*18;
-        const steep=Math.abs(ys[i+1]-ys[i])/(xs[i+1]-xs[i]);
-        lineD+=` L${bx},${by+jitter*(1+steep*2)}`;
-      }
-    }
-    lineD+=` L${xs[i+1]||xs[i]},${ys[i+1]||ys[i]}`;
-  }
-  // Connect last segments differently - build full line with peaks
-  lineD=`M${xs[0]},${ys[0]}`;
   for(let i=0;i<xs.length-1;i++){
-    const steps=8;
-    for(let s=1;s<=steps;s++){
-      const t=s/steps;
-      const bx=xs[i]+(xs[i+1]-xs[i])*t;
-      const by=ys[i]+(ys[i+1]-ys[i])*t;
-      const h=Math.sin(bx*0.23+i*7.1)*43758.5453%1;
-      const j=(h-.3)*16;
-      lineD+=` L${bx},${by+j}`;
-    }
+    const mx=(xs[i]+xs[i+1])/2;
+    const c1x=xs[i]+(xs[i+1]-xs[i])*.4;
+    const c1y=ys[i]+(ys[i+1]-ys[i])*-.15;
+    const c2x=xs[i]+(xs[i+1]-xs[i])*.6;
+    const c2y=ys[i]+(ys[i+1]-ys[i])*1.15;
+    areaD+=` C${c1x},${c1y} ${c2x},${c2y} ${xs[i+1]},${ys[i+1]}`;
+    lineD+=` C${c1x},${c1y} ${c2x},${c2y} ${xs[i+1]},${ys[i+1]}`;
   }
   areaD+=` L${xs[xs.length-1]},${baseY} Z`;
 
   // Altitude labels
   let altLabels='';
-  xs.forEach((x,i)=>{
-    altLabels+=`<text x="${x}" y="${ys[i]-12}" class="mtn-alt">${RT[i].a}</text>`;
-  });
+  xs.forEach((x,i)=>{altLabels+=`<text x="${x}" y="${ys[i]-12}" class="mtn-alt">${RT[i].a}</text>`});
 
-  // Station dots on ridge
+  // Peak dots
   let dots='';
-  xs.forEach((x,i)=>{
-    dots+=`<circle cx="${x}" cy="${ys[i]}" r="3" fill="var(--warm)"/>`;
-  });
+  xs.forEach((x,i)=>{dots+=`<circle cx="${x}" cy="${ys[i]}" r="3.5" fill="var(--warm)"/>`});
 
-  // Place name labels
+  // Names at bottom
   let labels='';
-  xs.forEach((x,i)=>{
-    labels+=`<text x="${x}" y="${H-8}" class="mtn-label">${RT[i].n}</text>`;
-  });
+  xs.forEach((x,i)=>{labels+=`<text x="${x}" y="${H-8}" class="mtn-label">${RT[i].n}</text>`});
 
   return`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet"><path d="${areaD}" class="mtn-fill"/><path d="${lineD}" class="mtn-line"/>${dots}${altLabels}${labels}</svg>`;
-}
-
-/* ═══════════════════════════════════════════
-   RENDER: HOME
-   ═══════════════════════════════════════════ */
-function renderHome(){
+}function renderHome(){
   const ti=getTodayIndex();
   const today=DAYS[ti];
   const greeting=getGreeting();
 
   // Set background to today's photo
-  document.body.style.setProperty('--bg-img','url('+DIMG[ti].src+')');
+  document.body.style.setProperty('--bg-img','url('+(DIMG[ti].fallback||DIMG[ti].src)+')');
 
   const R=5,orbR=38;
   let stones='';PR.forEach((p,i)=>{const angle=(i/R)*2*Math.PI-Math.PI/2;const l=50+orbR*Math.cos(angle),t=50+orbR*Math.sin(angle);stones+=`<div class="orbit-stone" data-pi="${i}" style="left:${l}%;top:${t}%">${p.t}</div>`});
@@ -717,7 +681,7 @@ function renderSettings(){
       <div class="set-row tappable" id="exportData"><span class="srl">导出行程数据</span><span class="srv">JSON</span></div>
       <div class="set-row danger" id="resetData"><span class="srl">重置所有数据</span><span class="srv">清除</span></div>
     </div></div>
-    <div class="set-block"><div class="sb-label">关于</div><div class="set-card"><div class="set-row"><span class="srl">川西家庭旅行</span><span class="srv">2026年7月</span></div><div class="set-row"><span class="srl">版本</span><span class="srv">Beta 36</span></div></div></div>
+    <div class="set-block"><div class="sb-label">关于</div><div class="set-card"><div class="set-row"><span class="srl">川西家庭旅行</span><span class="srv">2026年7月</span></div><div class="set-row"><span class="srl">版本</span><span class="srv">Beta 37</span></div></div></div>
     <div class="end-quote">"慢慢进入高原<br><strong>慢慢回到自己</strong>"</div></div>`;
 }
 
@@ -745,6 +709,8 @@ function switchTab(name){
   if(old)old.classList.remove('on');
   np.classList.add('on');
   $('#mainContent').scrollTop=0;
+  // Home page gets photo bg, others clear it
+  if(name==='home'){const ti=getTodayIndex();document.body.style.setProperty('--bg-img','url('+(DIMG[ti].fallback||DIMG[ti].src)+')');}else{document.body.style.removeProperty('--bg-img');}
   currentTab=name;
   store('sctab3',name);
   requestAnimationFrame(()=>stagger(np));
@@ -762,19 +728,8 @@ function renderTab(name){
    ORBIT (drag to rotate)
    ═══════════════════════════════════════════ */
 function setupOrbit(){
-  let isDragging=false,startAngle=0,currentAngle=0,totalAngle=0;
-  document.addEventListener('mousedown',e=>{const stage=e.target.closest('#orbitStage');if(!stage)return;const track=stage.querySelector('.orbit-track');if(!track)return;isDragging=true;const r=stage.getBoundingClientRect();startAngle=Math.atan2(e.clientY-r.top-r.height/2,e.clientX-r.left-r.width/2);track.classList.add('paused');stage.querySelectorAll('.orbit-stone').forEach(s=>s.classList.add('paused'))});
-  window.addEventListener('mousemove',e=>{if(!isDragging)return;const stage=document.querySelector('#orbitStage');if(!stage)return;const track=stage.querySelector('.orbit-track');if(!track)return;const r=stage.getBoundingClientRect();currentAngle=Math.atan2(e.clientY-r.top-r.height/2,e.clientX-r.left-r.width/2);totalAngle+=(currentAngle-startAngle);startAngle=currentAngle;track.style.rotate=`${totalAngle*180/Math.PI}deg`});
-  window.addEventListener('mouseup',()=>{if(!isDragging)return;isDragging=false;const stage=document.querySelector('#orbitStage');if(stage){const track=stage.querySelector('.orbit-track');if(track)track.classList.remove('paused');stage.querySelectorAll('.orbit-stone').forEach(s=>s.classList.remove('paused'))}});
-  document.addEventListener('touchstart',e=>{const stage=e.target.closest('#orbitStage');if(!stage)return;const track=stage.querySelector('.orbit-track');if(!track)return;isDragging=true;const t=e.touches[0],r=stage.getBoundingClientRect();startAngle=Math.atan2(t.clientY-r.top-r.height/2,t.clientX-r.left-r.width/2);track.classList.add('paused');stage.querySelectorAll('.orbit-stone').forEach(s=>s.classList.add('paused'))},{passive:true});
-  window.addEventListener('touchmove',e=>{if(!isDragging)return;const stage=document.querySelector('#orbitStage');if(!stage)return;const track=stage.querySelector('.orbit-track');if(!track)return;const t=e.touches[0],r=stage.getBoundingClientRect();currentAngle=Math.atan2(t.clientY-r.top-r.height/2,t.clientX-r.left-r.width/2);totalAngle+=(currentAngle-startAngle);startAngle=currentAngle;track.style.rotate=`${totalAngle*180/Math.PI}deg`},{passive:true});
-  window.addEventListener('touchend',()=>{if(!isDragging)return;isDragging=false;const stage=document.querySelector('#orbitStage');if(stage){const track=stage.querySelector('.orbit-track');if(track)track.classList.remove('paused');stage.querySelectorAll('.orbit-stone').forEach(s=>s.classList.remove('paused'))}});
+  // Orbit drag disabled — stones stay static
 }
-
-/* ═══════════════════════════════════════════
-   BENTO SHEET
-   ═══════════════════════════════════════════ */
-const CLOSE_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
 
 function openDaySheet(dayIndex){
   const d=DAYS[dayIndex];if(!d)return;
@@ -888,7 +843,7 @@ function forcePWA(){
 
 function init(){
   // Service Worker — ensures updates on home screen apps
-  if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js?v=36').catch(()=>{});}
+  if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js?v=37').catch(()=>{});}
   // Pre-render all pages
   $('#page-home').innerHTML=renderHome();
   $('#page-trip').innerHTML=renderTrip();
