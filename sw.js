@@ -6,6 +6,6 @@ self.addEventListener('activate', e => {
   self.clients.claim();
 });
 self.addEventListener('fetch', e => {
-  // Network only — no cache fallback
-  e.respondWith(fetch(e.request));
+  // Network only, bypass HTTP cache entirely
+  e.respondWith(fetch(e.request, {cache: 'no-store'}));
 });
