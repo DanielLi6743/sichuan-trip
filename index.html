@@ -134,6 +134,66 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'SF Pro Display','P
 
 .fade-up{opacity:0;transform:translateY(20px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
 .fade-up.in{opacity:1;transform:translateY(0)}
+.fade-up-d1{transition-delay:.08s}.fade-up-d2{transition-delay:.16s}.fade-up-d3{transition-delay:.24s}.fade-up-d4{transition-delay:.32s}.fade-up-d5{transition-delay:.4s}
+
+/* Ken Burns slow zoom on home BG */
+@keyframes kenBurns{from{transform:scale(1)}to{transform:scale(1.05)}}
+body.ken-burns::before{content:'';position:fixed;inset:-20px;z-index:-1;background-image:var(--bg-img,none);background-position:center;background-size:cover;animation:kenBurns 25s var(--ease) infinite alternate;pointer-events:none}
+
+/* Hero text reveals */
+@keyframes greetIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:translateX(0)}}
+@keyframes titleIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes capsuleIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+.home-hero .hh-greeting{animation:greetIn .6s .3s var(--ease) both}
+.home-hero .hh-location{animation:titleIn .65s .45s var(--ease) both}
+.home-hero .hh-capsule{animation:capsuleIn .5s .7s var(--ease) both}
+
+/* Mountain SVG line draw */
+.mtn-line{stroke-dasharray:1000;stroke-dashoffset:1000;animation:mtnDraw 1.4s .8s var(--ease) forwards}
+@keyframes mtnDraw{to{stroke-dashoffset:0}}
+.mtn-fill{opacity:0;animation:mtnFillIn .8s 1.3s var(--ease) forwards}
+@keyframes mtnFillIn{to{opacity:.16}}
+.mtn-chart-wrap circle{opacity:0;animation:dotPop .35s var(--ease) forwards}
+.mtn-chart-wrap circle:nth-child(1){animation-delay:1.6s}.mtn-chart-wrap circle:nth-child(2){animation-delay:1.7s}.mtn-chart-wrap circle:nth-child(3){animation-delay:1.8s}.mtn-chart-wrap circle:nth-child(4){animation-delay:1.9s}.mtn-chart-wrap circle:nth-child(5){animation-delay:2s}.mtn-chart-wrap circle:nth-child(6){animation-delay:2.1s}
+@keyframes dotPop{from{opacity:0;r:0}to{opacity:1;r:3.5}}
+.mtn-alt{opacity:0;animation:altFade .45s var(--ease) forwards}
+.mtn-chart-wrap text.mtn-alt:nth-of-type(1){animation-delay:1.5s}.mtn-chart-wrap text.mtn-alt:nth-of-type(2){animation-delay:1.6s}.mtn-chart-wrap text.mtn-alt:nth-of-type(3){animation-delay:1.7s}.mtn-chart-wrap text.mtn-alt:nth-of-type(4){animation-delay:1.8s}.mtn-chart-wrap text.mtn-alt:nth-of-type(5){animation-delay:1.9s}.mtn-chart-wrap text.mtn-alt:nth-of-type(6){animation-delay:2s}
+@keyframes altFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* Quick stats count-up pulse */
+@keyframes statPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+.quick-stat.counted .qs-val{animation:statPulse .5s var(--ease) 1}
+
+/* Calendar day hover */
+.cal-day:not(.expanded):hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(194,123,68,.15)}
+@keyframes dayReveal{from{opacity:0;transform:scale(.8) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.cal-day:not(.hidden-cell):not(.cal-cell){animation:dayReveal .4s var(--ease) both}
+.cal-day:nth-child(1){animation-delay:.05s}.cal-day:nth-child(2){animation-delay:.1s}.cal-day:nth-child(3){animation-delay:.15s}.cal-day:nth-child(4){animation-delay:.2s}.cal-day:nth-child(5){animation-delay:.25s}.cal-day:nth-child(6){animation-delay:.3s}.cal-day:nth-child(7){animation-delay:.35s}.cal-day:nth-child(8){animation-delay:.4s}.cal-day:nth-child(9){animation-delay:.45s}.cal-day:nth-child(10){animation-delay:.5s}.cal-day:nth-child(11){animation-delay:.55s}.cal-day:nth-child(12){animation-delay:.6s}
+
+/* Discover card reveal */
+@keyframes cardReveal{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.masonry-item.reveal{animation:cardReveal .5s var(--ease) both}
+
+/* Settings row stagger */
+@keyframes rowIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
+.set-card .set-row{animation:rowIn .4s var(--ease) both}
+.set-card .set-row:nth-child(1){animation-delay:.1s}.set-card .set-row:nth-child(2){animation-delay:.18s}.set-card .set-row:nth-child(3){animation-delay:.26s}
+
+/* Tab icon wiggle */
+.tab-item:active .ti-icon{animation:iconWiggle .3s var(--ease)}
+@keyframes iconWiggle{0%,100%{transform:scale(1)}30%{transform:scale(.85)}60%{transform:scale(1.1)}}
+
+/* Page enter transition */
+.page.on{display:block;animation:pageIn .35s var(--ease) both}
+@keyframes pageIn{from{opacity:.6;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* Quote fade */
+@keyframes quoteIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.end-quote{animation:quoteIn .6s 1s var(--ease) both}
+
+/* Overlay backdrop pulse */
+#sheetOverlay{animation:soIn .35s ease both}
+@keyframes sheetUp{from{transform:translateY(40px);opacity:.6}to{transform:translateY(0);opacity:1}}
 
 /* ═══════════════════════════════════════════
    HOME HERO (no image — BG is page background)
@@ -495,7 +555,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'SF Pro Display','P
   <button class="tab-item" data-tab="trip"><span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>行程</button>
   <button class="tab-item" data-tab="check"><span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="12 6 14.5 10.5 19.5 11.5 16 15 16.5 20 12 18 7.5 20 8 15 4.5 11.5 9.5 10.5"/></svg></span>发现</button>
   <button class="tab-item" data-tab="settings"><span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>设置</button>
-  <div class="sidebar-footer">Beta 48</div>
+  <div class="sidebar-footer">Beta 49</div>
 </nav>
 
 <main id="mainContent">
@@ -552,6 +612,30 @@ function store(k,v){try{if(v===undefined){const r=localStorage.getItem(k);return
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(t._tid);t._tid=setTimeout(()=>t.classList.remove('show'),1800)}
 function stagger(c){c.querySelectorAll('.fade-up:not(.in)').forEach((el,i)=>{setTimeout(()=>{el.style.transitionDelay='0s';el.classList.add('in')},i*28)})}
+function countUp(el,target,duration){
+  const start=0,startTime=performance.now();
+  function tick(now){
+    const p=Math.min((now-startTime)/duration,1);
+    const v=Math.floor(p*(target-start)+start);
+    el.textContent=p>=1?target:v;
+    if(p<1)requestAnimationFrame(tick);
+    else el.parentElement&&el.parentElement.classList.add('counted');
+  }
+  requestAnimationFrame(tick);
+}
+function animateStats(){
+  document.querySelectorAll('.qs-val').forEach(el=>{
+    const t=el.textContent;const m=t.match(/^([\d,]+)/);
+    if(m){const n=parseInt(m[1].replace(/,/g,''));el.setAttribute('data-target',n);el.textContent='0';countUp(el,n,1200)}
+    else if(el.hasAttribute('data-target')){countUp(el,parseInt(el.getAttribute('data-target')),1200)}
+  });
+}
+function setupDiscoverReveal(){
+  const obs=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('reveal');obs.unobserve(e.target)}})
+  },{threshold:.15});
+  document.querySelectorAll('.masonry-item:not(.reveal)').forEach(el=>obs.observe(el));
+}
 function isDesktop(){return window.matchMedia('(min-width:768px)').matches}
 
 function getTodayIndex(){const now=new Date();const j8=new Date(2026,6,8);const diff=Math.floor((now-j8)/(1000*60*60*24));return Math.max(0,Math.min(11,diff))}
@@ -681,7 +765,7 @@ function renderSettings(){
       <div class="set-row tappable" id="exportData"><span class="srl">导出行程数据</span><span class="srv">JSON</span></div>
       <div class="set-row danger" id="resetData"><span class="srl">重置所有数据</span><span class="srv">清除</span></div>
     </div></div>
-    <div class="set-block"><div class="sb-label">关于</div><div class="set-card"><div class="set-row"><span class="srl">川西家庭旅行</span><span class="srv">2026年7月</span></div><div class="set-row"><span class="srl">版本</span><span class="srv">Beta 48</span></div></div></div>
+    <div class="set-block"><div class="sb-label">关于</div><div class="set-card"><div class="set-row"><span class="srl">川西家庭旅行</span><span class="srv">2026年7月</span></div><div class="set-row"><span class="srl">版本</span><span class="srv">Beta 49</span></div></div></div>
     <div class="end-quote">"慢慢进入高原<br><strong>慢慢回到自己</strong>"</div></div>`;
 }
 
@@ -710,16 +794,16 @@ function switchTab(name){
   np.classList.add('on');
   $('#mainContent').scrollTop=0;
   // Home page gets photo bg, others clear it
-  if(name==='home'){const ti=getTodayIndex();document.body.style.setProperty('--bg-img','url('+(DIMG[ti].fallback||DIMG[ti].src)+')');}else{document.body.style.removeProperty('--bg-img');}
+  if(name==='home'){const ti=getTodayIndex();document.body.style.setProperty('--bg-img','url('+(DIMG[ti].fallback||DIMG[ti].src)+')');document.body.classList.add('ken-burns');}else{document.body.style.removeProperty('--bg-img');document.body.classList.remove('ken-burns');}
   currentTab=name;
   store('sctab3',name);
   requestAnimationFrame(()=>stagger(np));
 }
 
 function renderTab(name){
-  if(name==='home'){$('#page-home').innerHTML=renderHome();setupOrbit();}
+  if(name==='home'){$('#page-home').innerHTML=renderHome();setupOrbit();requestAnimationFrame(()=>{requestAnimationFrame(animateStats)});requestAnimationFrame(()=>{requestAnimationFrame(animateStats)})}
   else if(name==='trip')$('#page-trip').innerHTML=renderTrip();
-  else if(name==='check'){$('#page-check').innerHTML=renderDiscover();}
+  else if(name==='check'){$('#page-check').innerHTML=renderDiscover();requestAnimationFrame(()=>setupDiscoverReveal());requestAnimationFrame(()=>setupDiscoverReveal())}
   else if(name==='settings'){$('#page-settings').innerHTML=renderSettings();bindSettings();}
   switchTab(name);
 }
@@ -886,11 +970,11 @@ function forcePWA(){
 
 function init(){
   // Service Worker — ensures updates on home screen apps
-  if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js?v=48').catch(()=>{});}
+  if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js?v=49').catch(()=>{});}
   // Pre-render all pages
-  $('#page-home').innerHTML=renderHome();setupOrbit();
+  $('#page-home').innerHTML=renderHome();setupOrbit();requestAnimationFrame(()=>{requestAnimationFrame(animateStats)});
   $('#page-trip').innerHTML=renderTrip();
-  $('#page-check').innerHTML=renderDiscover();
+  $('#page-check').innerHTML=renderDiscover();requestAnimationFrame(()=>setupDiscoverReveal());
   $('#page-settings').innerHTML=renderSettings();
 
   setup();bindSettings();setupOrbit();
@@ -903,6 +987,7 @@ function init(){
     const tab=store('sctab3')||'home';
     $$('.tab-item').forEach(b=>{if(b.dataset.tab===tab)b.classList.add('active')});
     currentTab=tab;
+    if(tab==='home')document.body.classList.add('ken-burns');
     switchTab(tab);
     movePill(tab);
     setTimeout(showAppNotice,800);
