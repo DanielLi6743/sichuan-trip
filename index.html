@@ -501,7 +501,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'SF Pro Display','P
   <button class="tab-item" data-tab="trip"><span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>行程</button>
   <button class="tab-item" data-tab="check"><span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="12 6 14.5 10.5 19.5 11.5 16 15 16.5 20 12 18 7.5 20 8 15 4.5 11.5 9.5 10.5"/></svg></span>发现</button>
   <button class="tab-item" data-tab="settings"><span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>设置</button>
-  <div class="sidebar-footer">Beta 20</div>
+  <div class="sidebar-footer">Beta 21</div>
 </nav>
 
 <main id="mainContent">
@@ -734,7 +734,7 @@ function renderSettings(){
       <div class="set-row tappable" id="exportData"><span class="srl">导出行程数据</span><span class="srv">JSON</span></div>
       <div class="set-row danger" id="resetData"><span class="srl">重置所有数据</span><span class="srv">清除</span></div>
     </div></div>
-    <div class="set-block"><div class="sb-label">关于</div><div class="set-card"><div class="set-row"><span class="srl">川西家庭旅行</span><span class="srv">2026年7月</span></div><div class="set-row"><span class="srl">版本</span><span class="srv">Beta 20</span></div></div></div>
+    <div class="set-block"><div class="sb-label">关于</div><div class="set-card"><div class="set-row"><span class="srl">川西家庭旅行</span><span class="srv">2026年7月</span></div><div class="set-row"><span class="srl">版本</span><span class="srv">Beta 21</span></div></div></div>
     <div class="end-quote">"慢慢进入高原<br><strong>慢慢回到自己</strong>"</div></div>`;
 }
 
@@ -913,7 +913,7 @@ function forcePWA(){
   if(document.getElementById('pwaForce'))return;
   const ov=document.createElement('div');
   ov.id='pwaForce';
-  ov.innerHTML=`<div class="pf-card"><div class="pf-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--warm)" stroke-width="1.5" width="48" height="48"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div><h2>请先添加到主屏幕</h2><p style="font-size:13px;color:var(--t2);line-height:1.6">为获得最佳体验，请将本页面<br>添加至手机主屏幕后打开</p><div class="pf-steps"><div class="pf-step"><span class="pf-num">1</span><span>点击 Safari 底部的 <strong>分享</strong> 按钮</span></div><div class="pf-step"><span class="pf-num">2</span><span>滑动找到 <strong>添加到主屏幕</strong></span></div><div class="pf-step"><span class="pf-num">3</span><span>点击右上角 <strong>添加</strong></span></div></div><button class="pf-continue" id="pfSkip">继续在浏览器中查看</button></div>`;
+  ov.innerHTML=`<div class="pf-card"><div class="pf-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#C27B44" stroke-width="1.6" width="48" height="48" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></div><h2>请先添加到主屏幕</h2><p style="font-size:13px;color:var(--t2);line-height:1.6">为获得最佳体验，请将本页面<br>添加至手机主屏幕后打开</p><div class="pf-steps"><div class="pf-step"><span class="pf-num">1</span><span>点击 Safari 底部的 <strong>分享</strong> 按钮</span></div><div class="pf-step"><span class="pf-num">2</span><span>滑动找到 <strong>添加到主屏幕</strong></span></div><div class="pf-step"><span class="pf-num">3</span><span>点击右上角 <strong>添加</strong></span></div></div><button class="pf-continue" id="pfSkip">继续在浏览器中查看</button></div>`;
   document.body.appendChild(ov);
   document.getElementById('pfSkip').addEventListener('click',()=>{ov.style.display='none'});
 }
