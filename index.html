@@ -22,7 +22,7 @@
    ═══════════════════════════════════════════ */
 
 :root {
-  --bg:#FDFAF5; --surface:#FFFFFF; --t1:#1E1B17; --t2:#8C8278; --t3:#B8AFA5;
+  --bg:#FFFFFF; --surface:#FDFAF5; --t1:#1E1B17; --t2:#8C8278; --t3:#B8AFA5;
   --warm:#C27B44; --warm-light:#FDF0E4; --cool:#5C8A6A; --cool-light:#ECF4EE;
   --border:#EBE5DD; --border-light:#F3EFE9;
   --shadow-sm:0 1px 3px rgba(30,27,23,0.04);
@@ -186,6 +186,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'SF Pro Display','P
 
 /* ─── QUICK STATS ─── */
 .quick-stats{display:flex;justify-content:center;gap:32px;padding:8px 16px 24px;flex-wrap:wrap}
+.quick-stats-card{margin:0 14px 20px;padding:16px;border-radius:var(--r-lg);background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow-sm);display:flex;justify-content:center;gap:32px;flex-wrap:wrap}
 .quick-stat{text-align:center;min-width:64px}
 .quick-stat .qs-val{font-family:'Noto Serif SC','Songti SC',serif;font-size:30px;font-weight:700;color:var(--warm);line-height:1}
 .quick-stat .qs-label{font-size:10px;color:var(--t2);margin-top:4px;font-weight:500;letter-spacing:.03em}
@@ -232,6 +233,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'SF Pro Display','P
 @media(min-width:640px){.orbit-stone{width:68px;height:68px;margin:-34px 0 0 -34px;font-size:28px}}
 
 /* ─── ROUTE EXPLORER / MOUNTAIN CHART ─── */
+.route-card{margin:0 14px 24px;padding:20px 16px 16px;border-radius:var(--r-lg);background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow-md)}
 .route-explorer{margin:0 16px 20px}
 .route-explorer .rx-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px}
 .route-explorer .rx-header h3{font-family:'Noto Serif SC','Songti SC',serif;font-size:18px;font-weight:700}
@@ -503,7 +505,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'SF Pro Display','P
   <button class="tab-item" data-tab="trip"><span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>行程</button>
   <button class="tab-item" data-tab="check"><span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="12 6 14.5 10.5 19.5 11.5 16 15 16.5 20 12 18 7.5 20 8 15 4.5 11.5 9.5 10.5"/></svg></span>发现</button>
   <button class="tab-item" data-tab="settings"><span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>设置</button>
-  <div class="sidebar-footer">Beta 33</div>
+  <div class="sidebar-footer">Beta 34</div>
 </nav>
 
 <main id="mainContent">
@@ -631,6 +633,7 @@ function renderHome(){
       <div class="hb-overlay"></div>
       <div class="hb-capsule">${today.title}</div>
       <div class="hb-text">
+        <div class="hb-greeting">${greeting}</div>
         <div class="hb-location">${today.title}</div>
       </div>
     </div>
@@ -650,7 +653,7 @@ function renderHome(){
       </div>
     </div>
 
-    <div class="route-explorer fade-up">
+    <div class="route-explorer route-card fade-up">
       <div class="rx-header"><h3>路线</h3><span>海拔一览</span></div>
       <div class="mtn-chart-wrap">${makeMountainSVG()}</div>
     </div>
@@ -711,7 +714,7 @@ function renderSettings(){
       <div class="set-row tappable" id="exportData"><span class="srl">导出行程数据</span><span class="srv">JSON</span></div>
       <div class="set-row danger" id="resetData"><span class="srl">重置所有数据</span><span class="srv">清除</span></div>
     </div></div>
-    <div class="set-block"><div class="sb-label">关于</div><div class="set-card"><div class="set-row"><span class="srl">川西家庭旅行</span><span class="srv">2026年7月</span></div><div class="set-row"><span class="srl">版本</span><span class="srv">Beta 33</span></div></div></div>
+    <div class="set-block"><div class="sb-label">关于</div><div class="set-card"><div class="set-row"><span class="srl">川西家庭旅行</span><span class="srv">2026年7月</span></div><div class="set-row"><span class="srl">版本</span><span class="srv">Beta 34</span></div></div></div>
     <div class="end-quote">"慢慢进入高原<br><strong>慢慢回到自己</strong>"</div></div>`;
 }
 
@@ -882,7 +885,7 @@ function forcePWA(){
 
 function init(){
   // Service Worker — ensures updates on home screen apps
-  if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js?v=33').catch(()=>{});}
+  if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js?v=34').catch(()=>{});}
   // Pre-render all pages
   $('#page-home').innerHTML=renderHome();
   $('#page-trip').innerHTML=renderTrip();
