@@ -136,32 +136,21 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'SF Pro Display','P
 .fade-up.in{opacity:1;transform:translateY(0)}
 
 /* ═══════════════════════════════════════════
-   HERO BANNER
+   HOME HERO (no image — BG is page background)
    ═══════════════════════════════════════════ */
-.hero-banner{position:relative;margin:0 0 36px;border-radius:0;overflow:visible;height:300px;box-shadow:none}
-.hero-banner img{width:100%;height:100%;object-fit:cover;display:block;border-radius:0}
-.hero-banner .hb-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.06) 0%,transparent 35%,rgba(0,0,0,.2) 100%);border-radius:0}
-.hero-banner .hb-text{position:absolute;bottom:-20px;left:14px;right:14px;background:var(--surface);color:var(--t1);border-radius:var(--r-lg);padding:16px 18px 14px;box-shadow:var(--shadow-md);border:1px solid var(--border)}
-.hero-banner .hb-text .hb-greeting{font-size:10px;color:var(--warm);margin-bottom:3px;font-weight:600;letter-spacing:.06em}
-.hero-banner .hb-text .hb-location{font-family:'Noto Serif SC','Songti SC',serif;font-size:22px;font-weight:700;line-height:1.2}
-.hero-banner .hb-capsule{position:absolute;top:calc(var(--safe-t) + 14px);right:16px;background:rgba(0,0,0,.22);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#fff;font-size:11px;font-weight:600;padding:6px 14px;border-radius:var(--r-full);letter-spacing:.05em;border:1px solid rgba(255,255,255,.18)}
-
+.home-hero{text-align:center;padding:40px 20px 32px}
+.home-hero .hh-greeting{font-size:13px;color:var(--warm);font-weight:600;letter-spacing:.04em;display:block;margin-bottom:6px}
+.home-hero .hh-location{font-family:'Noto Serif SC','Songti SC',serif;font-size:36px;font-weight:700;line-height:1.15;margin-bottom:10px}
+.home-hero .hh-capsule{display:inline-block;font-size:11px;color:var(--t2);background:var(--surface);padding:5px 14px;border-radius:var(--r-full);border:1px solid var(--border)}
 @media(min-width:768px){
-  .hero-banner{height:400px;margin:0 0 44px}
-  .hero-banner .hb-text{bottom:-24px;left:24px;right:24px;padding:20px 22px 18px}
-  .hero-banner .hb-text .hb-location{font-size:28px}
-  .hero-banner .hb-capsule{top:20px;right:24px}
-}
-@media(min-width:1024px){
-  .hero-banner{height:440px}
-  .hero-banner .hb-text .hb-location{font-size:32px}
+  .home-hero{padding:56px 24px 40px}
+  .home-hero .hh-location{font-size:44px}
 }
 @media(min-width:1400px){
-  .hero-banner{height:480px}
-  .hero-banner .hb-text{left:32px;right:32px;padding:22px 26px 20px}
-  .hero-banner .hb-text .hb-location{font-size:36px}
+  .home-hero .hh-location{font-size:52px}
 }
 
+/* ─── old hero classes kept for calendar sheet ─── */
 /* ─── TODAY STRIP ─── */
 .today-strip{margin:0 16px 20px;padding:16px;border-radius:var(--r-lg);background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow-sm);display:flex;gap:14px;align-items:center;cursor:pointer;transition:box-shadow .2s var(--ease);animation:tsIn .55s .25s var(--ease) both}
 @keyframes tsIn{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
@@ -507,7 +496,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'SF Pro Display','P
   <button class="tab-item" data-tab="trip"><span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>行程</button>
   <button class="tab-item" data-tab="check"><span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="12 6 14.5 10.5 19.5 11.5 16 15 16.5 20 12 18 7.5 20 8 15 4.5 11.5 9.5 10.5"/></svg></span>发现</button>
   <button class="tab-item" data-tab="settings"><span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>设置</button>
-  <div class="sidebar-footer">Beta 35</div>
+  <div class="sidebar-footer">Beta 36</div>
 </nav>
 
 <main id="mainContent">
@@ -572,50 +561,70 @@ function getGreeting(){const h=new Date().getHours();if(h>=5&&h<12)return '早�
    MOUNTAIN SVG — real ridge line, no snow caps
    ═══════════════════════════════════════════ */
 function makeMountainSVG(){
-  const W=600,H=240,PAD=30,baseY=H-PAD-10;
+  const W=600,H=220,PAD=24,baseY=H-32;
   const pts=RT.map(r=>parseInt(r.a.replace(/,/g,'')));
   const maxA=3800;
   const xs=RT.map((_,i)=>PAD+(i/(RT.length-1))*(W-PAD*2));
-  const ys=pts.map(v=>baseY-(v/maxA)*(baseY-28));
+  const ys=pts.map(v=>baseY-(v/maxA)*(baseY-20));
 
-  // Midpoint displacement for jagged ridge
-  const hh=(x,s)=>{const n=Math.sin(x*0.437+s)*43758.5453;return n-Math.floor(n)};
-  let ridge=xs.map((x,i)=>({x,y:ys[i]}));
-  for(let iter=0;iter<5;iter++){
-    const nr=[];
-    for(let i=0;i<ridge.length-1;i++){
-      nr.push(ridge[i]);
-      const mx=(ridge[i].x+ridge[i+1].x)/2;
-      const my=(ridge[i].y+ridge[i+1].y)/2;
-      const roughness=(ridge[i+1].x-ridge[i].x)*0.08*Math.pow(0.5,iter);
-      nr.push({x:mx,y:my-(hh(mx,iter*7+i*13)-0.25)*roughness*2});
+  // Build smooth ridge with peaks at each station
+  let areaD=`M${xs[0]},${baseY}`;
+  let lineD=`M${xs[0]},${ys[0]}`;
+  for(let i=0;i<xs.length;i++){
+    if(i>0){
+      const cx1=xs[i-1]+(xs[i]-xs[i-1])*.65;
+      const cx2=xs[i-1]+(xs[i]-xs[i-1])*.35;
+      areaD+=` C${cx1},${ys[i-1]+(ys[i]-ys[i-1])*.3} ${cx2},${ys[i]-(ys[i]-ys[i-1])*.3} ${xs[i]},${ys[i]}`;
+      lineD=`M${xs[0]},${ys[0]}`;
     }
-    nr.push(ridge[ridge.length-1]);
-    ridge=nr;
+    // Jagged ridge between points
+    if(i<xs.length-1){
+      const steps=6;
+      for(let s=1;s<=steps;s++){
+        const t=s/steps;
+        const bx=xs[i]+(xs[i+1]-xs[i])*t;
+        const by=ys[i]+(ys[i+1]-ys[i])*t;
+        const jitter=(Math.sin(bx*.17+i*5.3)*43758.5453%1-.35)*18;
+        const steep=Math.abs(ys[i+1]-ys[i])/(xs[i+1]-xs[i]);
+        lineD+=` L${bx},${by+jitter*(1+steep*2)}`;
+      }
+    }
+    lineD+=` L${xs[i+1]||xs[i]},${ys[i+1]||ys[i]}`;
   }
+  // Connect last segments differently - build full line with peaks
+  lineD=`M${xs[0]},${ys[0]}`;
+  for(let i=0;i<xs.length-1;i++){
+    const steps=8;
+    for(let s=1;s<=steps;s++){
+      const t=s/steps;
+      const bx=xs[i]+(xs[i+1]-xs[i])*t;
+      const by=ys[i]+(ys[i+1]-ys[i])*t;
+      const h=Math.sin(bx*0.23+i*7.1)*43758.5453%1;
+      const j=(h-.3)*16;
+      lineD+=` L${bx},${by+j}`;
+    }
+  }
+  areaD+=` L${xs[xs.length-1]},${baseY} Z`;
 
-  // Mountain silhouette fill
-  let areaD=`M${ridge[0].x},${baseY}`;
-  for(const p of ridge)areaD+=` L${p.x},${p.y}`;
-  areaD+=` L${ridge[ridge.length-1].x},${baseY} Z`;
-
-  // Ridge line
-  let lineD=`M${ridge[0].x},${ridge[0].y}`;
-  for(let i=1;i<ridge.length;i++)lineD+=` L${ridge[i].x},${ridge[i].y}`;
-
-  // Altitude labels above every station
+  // Altitude labels
   let altLabels='';
   xs.forEach((x,i)=>{
     altLabels+=`<text x="${x}" y="${ys[i]-12}" class="mtn-alt">${RT[i].a}</text>`;
   });
 
-  // Place name labels at bottom
-  let labels='';
+  // Station dots on ridge
+  let dots='';
   xs.forEach((x,i)=>{
-    labels+=`<text x="${x}" y="${H-6}" class="mtn-label">${RT[i].n}</text>`;
+    dots+=`<circle cx="${x}" cy="${ys[i]}" r="3" fill="var(--warm)"/>`;
   });
 
-  return`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet"><path d="${areaD}" class="mtn-fill"/><path d="${lineD}" class="mtn-line"/>${altLabels}${labels}</svg>`;
+  // Place name labels
+  let labels='';
+  xs.forEach((x,i)=>{
+    labels+=`<text x="${x}" y="${H-8}" class="mtn-label">${RT[i].n}</text>`;
+  });
+
+  return`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet"><path d="${areaD}" class="mtn-fill"/><path d="${lineD}" class="mtn-line"/>${dots}${altLabels}${labels}</svg>`;
 }
 
 /* ═══════════════════════════════════════════
@@ -626,21 +635,20 @@ function renderHome(){
   const today=DAYS[ti];
   const greeting=getGreeting();
 
+  // Set background to today's photo
+  document.body.style.setProperty('--bg-img','url('+DIMG[ti].src+')');
+
   const R=5,orbR=38;
   let stones='';PR.forEach((p,i)=>{const angle=(i/R)*2*Math.PI-Math.PI/2;const l=50+orbR*Math.cos(angle),t=50+orbR*Math.sin(angle);stones+=`<div class="orbit-stone" data-pi="${i}" style="left:${l}%;top:${t}%">${p.t}</div>`});
 
   return `
-    <div class="hero-banner fade-up" style="margin-top:calc(var(--safe-t) * -1);padding-top:var(--safe-t)">
-      ${DIMG[ti].toHTML(today.title,'')}
-      <div class="hb-overlay"></div>
-      <div class="hb-capsule">${today.title}</div>
-      <div class="hb-text">
-        <div class="hb-greeting">${greeting}</div>
-        <div class="hb-location">${today.title}</div>
-      </div>
+    <div class="home-hero fade-up" style="padding-top:calc(var(--safe-t) + 60px)">
+      <span class="hh-greeting">${greeting}</span>
+      <h1 class="hh-location">${today.title}</h1>
+      <div class="hh-capsule">${today.date} · ${today.w}</div>
     </div>
 
-    <div class="quick-stats fade-up">
+    <div class="quick-stats quick-stats-card fade-up">
       <div class="quick-stat"><div class="qs-val">12</div><div class="qs-label">天旅程</div></div>
       <div class="quick-stat"><div class="qs-val">3,500<span style="font-size:14px;font-weight:400">m</span></div><div class="qs-label">最高海拔</div></div>
       <div class="quick-stat"><div class="qs-val">5</div><div class="qs-label">次住宿</div></div>
@@ -658,15 +666,8 @@ function renderHome(){
     <div class="route-explorer route-card fade-up">
       <div class="rx-header"><h3>路线</h3><span>海拔一览</span></div>
       <div class="mtn-chart-wrap">${makeMountainSVG()}</div>
-    </div>
-
-    <div class="end-quote fade-up">"宁愿少去一个地方<br><strong>也不要多赶一次路</strong>"</div>`;
-}
-
-/* ═══════════════════════════════════════════
-   RENDER: TRIP
-   ═══════════════════════════════════════════ */
-function renderTrip(){
+    </div>`;
+}function renderTrip(){
   const DOW=['一','二','三','四','五','六','日'];
   const july1Dow=2, tripStart=8, tripEnd=19;
   let dowRow=DOW.map(d=>`<div class="cal-dow">${d}</div>`).join('');
@@ -716,7 +717,7 @@ function renderSettings(){
       <div class="set-row tappable" id="exportData"><span class="srl">导出行程数据</span><span class="srv">JSON</span></div>
       <div class="set-row danger" id="resetData"><span class="srl">重置所有数据</span><span class="srv">清除</span></div>
     </div></div>
-    <div class="set-block"><div class="sb-label">关于</div><div class="set-card"><div class="set-row"><span class="srl">川西家庭旅行</span><span class="srv">2026年7月</span></div><div class="set-row"><span class="srl">版本</span><span class="srv">Beta 35</span></div></div></div>
+    <div class="set-block"><div class="sb-label">关于</div><div class="set-card"><div class="set-row"><span class="srl">川西家庭旅行</span><span class="srv">2026年7月</span></div><div class="set-row"><span class="srl">版本</span><span class="srv">Beta 36</span></div></div></div>
     <div class="end-quote">"慢慢进入高原<br><strong>慢慢回到自己</strong>"</div></div>`;
 }
 
@@ -887,7 +888,7 @@ function forcePWA(){
 
 function init(){
   // Service Worker — ensures updates on home screen apps
-  if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js?v=35').catch(()=>{});}
+  if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js?v=36').catch(()=>{});}
   // Pre-render all pages
   $('#page-home').innerHTML=renderHome();
   $('#page-trip').innerHTML=renderTrip();
